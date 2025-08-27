@@ -26,39 +26,51 @@ function Navigation() {
   return (
     <nav className="flex justify-between items-center px-12 py-4 text-white absolute top-0 left-0 w-full z-10">
       {/* Logo */}
-      <div className="flex items-center gap-2 font-bold text-lg text-green-200">
-        <img
-          src="https://img.icons8.com/ios-filled/50/ffffff/leaf.png"
-          className="w-7 h-7 rounded-md"
-          alt="logo"
-        />
-        Emerald Edge
+      <div className="flex items-center gap-3 font-sans-bold text-xl text-gold">
+        <span className="font-display-bold text-2xl tracking-wide">
+          Emerald Edge
+        </span>
       </div>
 
       {/* Links */}
       <ul className="flex gap-8 text-sm">
         <li>
-          <a href="#" className="text-yellow-400 font-bold">
+          <a
+            href="#"
+            className="text-gold font-sans-bold hover:text-gold/80 transition-colors duration-200"
+          >
             Home
           </a>
         </li>
         <li>
-          <a href="#" className="hover:text-yellow-300">
+          <a
+            href="#search"
+            className="text-sand hover:text-gold transition-colors duration-200 font-sans-medium"
+          >
             Services
           </a>
         </li>
         <li>
-          <a href="#" className="hover:text-yellow-300">
+          <a
+            href="#conservation"
+            className="text-sand hover:text-gold transition-colors duration-200 font-sans-medium"
+          >
             About
           </a>
         </li>
         <li>
-          <a href="#" className="hover:text-yellow-300">
+          <a
+            href="#trade"
+            className="text-sand hover:text-gold transition-colors duration-200 font-sans-medium"
+          >
             Blog
           </a>
         </li>
         <li>
-          <a href="#" className="hover:text-yellow-300">
+          <a
+            href="#"
+            className="text-sand hover:text-gold transition-colors duration-200 font-sans-medium"
+          >
             Contact
           </a>
         </li>

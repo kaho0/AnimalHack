@@ -9,7 +9,7 @@
   --accent: #c8a96b;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap");
 
 html,
 body {
@@ -24,9 +24,10 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
 }
 
-/* Typography improvements */
+/* Enhanced Typography System */
 h1,
 h2,
 h3,
@@ -34,7 +35,129 @@ h4,
 h5,
 h6 {
   line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: theme("colors.forest");
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-weight: 600;
+  line-height: 1.3;
+}
+
+h4 {
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Enhanced Font Classes */
+.font-display {
+  font-family: theme("fontFamily.serifDisplay");
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.font-display-light {
+  font-family: theme("fontFamily.serifDisplay");
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.font-display-medium {
+  font-family: theme("fontFamily.serifDisplay");
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.font-display-bold {
+  font-family: theme("fontFamily.serifDisplay");
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.font-sans-light {
+  font-family: theme("fontFamily.sans");
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+
+.font-sans-regular {
+  font-family: theme("fontFamily.sans");
+  font-weight: 400;
+  letter-spacing: 0.005em;
+}
+
+.font-sans-medium {
+  font-family: theme("fontFamily.sans");
+  font-weight: 500;
+  letter-spacing: 0.002em;
+}
+
+.font-sans-semibold {
+  font-family: theme("fontFamily.sans");
+  font-weight: 600;
+  letter-spacing: 0.001em;
+}
+
+.font-sans-bold {
+  font-family: theme("fontFamily.sans");
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.font-sans-black {
+  font-family: theme("fontFamily.sans");
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+/* Text Utilities */
+.text-hero {
+  @apply font-display-bold text-5xl md:text-7xl lg:text-8xl leading-tight;
+}
+
+.text-headline {
+  @apply font-display-bold text-3xl md:text-4xl lg:text-5xl leading-tight;
+}
+
+.text-subheadline {
+  @apply font-display-medium text-2xl md:text-3xl leading-relaxed;
+}
+
+.text-body-large {
+  @apply font-sans-regular text-lg md:text-xl leading-relaxed;
+}
+
+.text-body {
+  @apply font-sans-regular text-base md:text-lg leading-relaxed;
+}
+
+.text-body-small {
+  @apply font-sans-regular text-sm md:text-base leading-relaxed;
+}
+
+.text-caption {
+  @apply font-sans-medium text-sm leading-relaxed;
+}
+
+.text-label {
+  @apply font-sans-semibold text-sm uppercase tracking-wider;
 }
 
 /* Container utilities */
@@ -46,7 +169,7 @@ h6 {
   @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-/* Card component */
+/* Enhanced Card component */
 .card {
   @apply bg-[var(--paper)] rounded-3xl shadow-soft border border-sage/10;
 }
@@ -55,32 +178,40 @@ h6 {
   @apply bg-[var(--paper)] rounded-3xl shadow-2xl border-2 border-sage/20 hover:shadow-3xl transition-all duration-300;
 }
 
-/* Heading component */
+/* Enhanced Heading component */
 .heading {
-  @apply font-serifDisplay tracking-wide font-semibold;
+  @apply font-display-bold tracking-wide;
 }
 
-/* Button utilities */
+.heading-light {
+  @apply font-display-light tracking-wide;
+}
+
+.heading-medium {
+  @apply font-display-medium tracking-wide;
+}
+
+/* Enhanced Button utilities */
 .btn-primary {
-  @apply px-6 py-3 bg-forest text-sand rounded-xl hover:bg-moss transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+  @apply px-6 py-3 bg-forest text-sand rounded-xl hover:bg-moss transition-all duration-200 font-sans-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
 }
 
 .btn-secondary {
-  @apply px-6 py-3 bg-sand border-2 border-sage/50 text-forest hover:bg-sage/20 transition-all duration-200 font-medium rounded-xl;
+  @apply px-6 py-3 bg-sand border-2 border-sage/50 text-forest hover:bg-sage/20 transition-all duration-200 font-sans-medium rounded-xl;
 }
 
 .btn-accent {
-  @apply px-6 py-3 bg-gold text-forest rounded-xl hover:bg-gold/80 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+  @apply px-6 py-3 bg-gold text-forest rounded-xl hover:bg-gold/80 transition-all duration-200 font-sans-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
 }
 
-/* Input utilities */
+/* Enhanced Input utilities */
 .input-field {
-  @apply w-full rounded-xl border-2 border-sage/30 px-4 py-4 bg-cream focus:outline-none focus:ring-2 focus:ring-gold/60 focus:border-gold/40 transition-all duration-200 text-forest placeholder-forest/40;
+  @apply w-full rounded-xl border-2 border-sage/30 px-4 py-4 bg-cream focus:outline-none focus:ring-2 focus:ring-gold/60 focus:border-gold/40 transition-all duration-200 text-forest placeholder-forest/40 font-sans-regular;
 }
 
-/* Badge utilities */
+/* Enhanced Badge utilities */
 .badge {
-  @apply inline-flex items-center rounded-full px-3 py-1.5 text-sm font-medium border transition-all duration-200;
+  @apply inline-flex items-center rounded-full px-3 py-1.5 text-sm font-sans-medium border transition-all duration-200;
 }
 
 .badge-default {

@@ -52,10 +52,8 @@ function SearchForm() {
   return (
     <div className="container-prose my-16">
       <div className="text-center mb-12">
-        <h2 className="heading text-4xl md:text-5xl mb-6 text-forest">
-          Explore Species
-        </h2>
-        <p className="text-xl text-forest/70 max-w-2xl mx-auto leading-relaxed">
+        <h2 className="text-headline text-forest mb-6">Explore Species</h2>
+        <p className="text-body-large text-forest/70 max-w-2xl mx-auto leading-relaxed">
           Search by scientific name through the IUCN database to discover
           detailed information about species and their conservation status.
         </p>
@@ -64,33 +62,33 @@ function SearchForm() {
       <form onSubmit={onSearch} className="card p-8 md:p-12 max-w-4xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div>
-            <label className="block text-sm font-medium text-forest/80 mb-2">
+            <label className="block text-label text-forest/80 mb-2">
               Genus
             </label>
             <input
-              className="w-full rounded-xl border-2 border-sage/30 px-4 py-4 bg-cream focus:outline-none focus:ring-2 focus:ring-gold/60 focus:border-gold/40 transition-all duration-200 text-forest placeholder-forest/40"
+              className="input-field"
               placeholder="e.g., Cervus"
               value={genus}
               onChange={(e) => setGenus(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-forest/80 mb-2">
+            <label className="block text-label text-forest/80 mb-2">
               Species
             </label>
             <input
-              className="w-full rounded-xl border-2 border-sage/30 px-4 py-4 bg-cream focus:outline-none focus:ring-2 focus:ring-gold/60 focus:border-gold/40 transition-all duration-200 text-forest placeholder-forest/40"
+              className="input-field"
               placeholder="e.g., elaphus"
               value={species}
               onChange={(e) => setSpecies(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-forest/80 mb-2">
+            <label className="block text-label text-forest/80 mb-2">
               Subspecies (optional)
             </label>
             <input
-              className="w-full rounded-xl border-2 border-sage/30 px-4 py-4 bg-cream focus:outline-none focus:ring-2 focus:ring-gold/60 focus:border-gold/40 transition-all duration-200 text-forest placeholder-forest/40"
+              className="input-field"
               placeholder="e.g., scoticus"
               value={infra}
               onChange={(e) => setInfra(e.target.value)}
@@ -100,7 +98,7 @@ function SearchForm() {
 
         <div className="flex flex-wrap gap-4 items-center justify-center">
           <button
-            className="px-8 py-4 rounded-xl bg-forest text-sand hover:bg-moss transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="btn-primary px-8 py-4 text-lg"
             disabled={isPending}
           >
             {isPending ? (
@@ -115,14 +113,14 @@ function SearchForm() {
           <button
             type="button"
             onClick={loadMock}
-            className="px-6 py-4 rounded-xl bg-sand border-2 border-sage/50 hover:bg-sage/20 transition-all duration-200 font-medium text-forest hover:border-sage/70"
+            className="btn-secondary px-6 py-4 text-base"
           >
             Load JSON Sample
           </button>
         </div>
 
         <details className="mt-8 group">
-          <summary className="cursor-pointer text-sm text-forest/70 hover:text-forest transition-colors duration-200 font-medium flex items-center justify-center">
+          <summary className="cursor-pointer text-caption text-forest/70 hover:text-forest transition-colors duration-200 font-sans-medium flex items-center justify-center">
             <span className="mr-2">📋</span>
             Paste JSON Sample Data (for testing)
             <span className="ml-2 transform group-open:rotate-180 transition-transform duration-200">
@@ -146,7 +144,7 @@ function SearchForm() {
       {result && "error" in (result as any) && (
         <div className="mt-8 max-w-2xl mx-auto bg-red-50 text-red-700 border-2 border-red-200 rounded-xl p-6 text-center">
           <div className="text-red-600 mb-2">⚠️</div>
-          <p className="font-medium">{(result as any).error}</p>
+          <p className="font-sans-medium">{(result as any).error}</p>
         </div>
       )}
     </div>
@@ -167,24 +165,26 @@ export default function HomePage() {
           </div>
 
           <div className="container-prose relative z-10">
-            <h1 className="heading text-5xl md:text-7xl max-w-4xl leading-tight mb-8">
+            <h1 className="text-hero text-sand leading-tight mb-8 animate-text-reveal">
               Discover the World's
-              <span className="block text-gold">Wildlife Heritage</span>
+              <span className="block text-gold font-display-black">
+                Wildlife Heritage
+              </span>
             </h1>
-            <p className="text-xl md:text-2xl max-w-3xl text-sand/90 leading-relaxed mb-10">
+            <p className="text-body-large max-w-3xl text-sand/90 leading-relaxed mb-10 animate-slide-up">
               Explore species, understand their conservation status, and learn
               about the actions needed to protect our planet's biodiversity.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
                 href="#explore"
-                className="inline-block bg-gold text-forest font-bold px-8 py-4 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+                className="inline-block bg-gold text-forest font-sans-bold px-8 py-4 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
               >
                 Start Exploring
               </a>
               <a
                 href="#about"
-                className="inline-block px-8 py-4 rounded-xl border-2 border-sand/50 text-sand hover:bg-sand/10 transition-all duration-300 font-medium text-lg"
+                className="inline-block px-8 py-4 rounded-xl border-2 border-sand/50 text-sand hover:bg-sand/10 transition-all duration-300 font-sans-medium text-lg"
               >
                 Learn More
               </a>
@@ -197,19 +197,16 @@ export default function HomePage() {
           <div className="card p-8 md:p-12 bg-gradient-to-br from-cream to-sand/50">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <h3 className="heading text-3xl md:text-4xl mb-6 text-forest">
+                <h3 className="text-subheadline text-forest mb-6">
                   Your Gateway to Conservation
                 </h3>
-                <p className="text-lg text-forest/80 leading-relaxed mb-8">
+                <p className="text-body text-forest/80 leading-relaxed mb-8">
                   Access comprehensive data from the IUCN Red List, explore
                   conservation actions, and understand how human activities
                   impact species worldwide. Our platform provides the tools you
                   need to make informed decisions about wildlife protection.
                 </p>
-                <a
-                  id="explore"
-                  className="inline-block px-6 py-3 rounded-xl bg-forest text-sand hover:bg-moss transition-all duration-200 font-semibold"
-                >
+                <a id="explore" className="btn-primary inline-block">
                   Explore Species Database
                 </a>
               </div>
@@ -262,11 +259,11 @@ export default function HomePage() {
             <div>
               <div className="flex items-center space-x-3 mb-6">
                 <div className="w-10 h-10 bg-gradient-to-br from-gold to-clay rounded-lg flex items-center justify-center">
-                  <span className="text-forest text-lg font-bold">🌿</span>
+                  <span className="text-forest text-lg font-sans-bold">🌿</span>
                 </div>
-                <span className="text-2xl font-bold">AnimalHack</span>
+                <span className="text-2xl font-sans-bold">AnimalHack</span>
               </div>
-              <p className="text-sand/80 leading-relaxed mb-6">
+              <p className="text-body-small text-sand/80 leading-relaxed mb-6">
                 Your gateway to wildlife conservation data. Explore species,
                 understand their status, and discover actions needed to protect
                 our planet's biodiversity.
@@ -294,12 +291,12 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
+              <h3 className="text-lg font-sans-semibold mb-6">Quick Links</h3>
               <ul className="space-y-3">
                 <li>
                   <a
                     href="#search"
-                    className="text-sand/80 hover:text-gold transition-colors duration-200"
+                    className="text-sand/80 hover:text-gold transition-colors duration-200 font-sans-medium"
                   >
                     Search Species
                   </a>
@@ -307,7 +304,7 @@ export default function HomePage() {
                 <li>
                   <a
                     href="#conservation"
-                    className="text-sand/80 hover:text-gold transition-colors duration-200"
+                    className="text-sand/80 hover:text-gold transition-colors duration-200 font-sans-medium"
                   >
                     Conservation Actions
                   </a>
@@ -315,7 +312,7 @@ export default function HomePage() {
                 <li>
                   <a
                     href="#trade"
-                    className="text-sand/80 hover:text-gold transition-colors duration-200"
+                    className="text-sand/80 hover:text-gold transition-colors duration-200 font-sans-medium"
                   >
                     Use & Trade
                   </a>
@@ -323,7 +320,7 @@ export default function HomePage() {
                 <li>
                   <a
                     href="#"
-                    className="text-sand/80 hover:text-gold transition-colors duration-200"
+                    className="text-sand/80 hover:text-gold transition-colors duration-200 font-sans-medium"
                   >
                     About IUCN
                   </a>
@@ -332,12 +329,12 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-6">Resources</h3>
+              <h3 className="text-lg font-sans-semibold mb-6">Resources</h3>
               <ul className="space-y-3">
                 <li>
                   <a
                     href="#"
-                    className="text-sand/80 hover:text-gold transition-colors duration-200"
+                    className="text-sand/80 hover:text-gold transition-colors duration-200 font-sans-medium"
                   >
                     API Documentation
                   </a>
@@ -345,7 +342,7 @@ export default function HomePage() {
                 <li>
                   <a
                     href="#"
-                    className="text-sand/80 hover:text-gold transition-colors duration-200"
+                    className="text-sand/80 hover:text-gold transition-colors duration-200 font-sans-medium"
                   >
                     Data Sources
                   </a>
@@ -353,7 +350,7 @@ export default function HomePage() {
                 <li>
                   <a
                     href="#"
-                    className="text-sand/80 hover:text-gold transition-colors duration-200"
+                    className="text-sand/80 hover:text-gold transition-colors duration-200 font-sans-medium"
                   >
                     Conservation Guide
                   </a>
@@ -361,7 +358,7 @@ export default function HomePage() {
                 <li>
                   <a
                     href="#"
-                    className="text-sand/80 hover:text-gold transition-colors duration-200"
+                    className="text-sand/80 hover:text-gold transition-colors duration-200 font-sans-medium"
                   >
                     Contact Support
                   </a>
@@ -371,7 +368,7 @@ export default function HomePage() {
           </div>
 
           <div className="border-t border-sand/20 mt-12 pt-8 text-center">
-            <p className="text-sand/60 text-sm">
+            <p className="text-sand/60 text-sm font-sans-medium">
               © 2024 AnimalHack. Built with ❤️ for wildlife conservation. Data
               sourced from IUCN Red List.
             </p>

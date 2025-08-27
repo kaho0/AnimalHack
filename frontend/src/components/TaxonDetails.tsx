@@ -42,7 +42,7 @@ function Badge({
   variant?: "default" | "highlight" | "secondary";
 }) {
   const baseClasses =
-    "inline-flex items-center rounded-full px-4 py-2 text-sm font-medium border transition-all duration-200";
+    "inline-flex items-center rounded-full px-4 py-2 text-sm font-sans-medium border transition-all duration-200";
 
   const variants = {
     default:
@@ -80,119 +80,69 @@ export function TaxonDetails({ taxon }: { taxon: Taxon }) {
       <div className="text-center mb-12 pb-8 border-b-2 border-sage/20">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="flex-1">
-            <h2 className="heading text-3xl md:text-4xl text-forest mb-4">
+            <h2 className="text-headline text-forest mb-4">
               {taxon.scientific_name}
             </h2>
             {taxon.authority && (
-              <p className="text-lg text-forest/70 italic">{taxon.authority}</p>
+              <p className="text-body text-forest/70 italic font-sans-medium">
+                {taxon.authority}
+              </p>
             )}
             {mainCommon && (
               <div className="mt-4 inline-block bg-gold/20 text-forest px-4 py-2 rounded-xl border border-gold/40">
-                <span className="text-forest/70 font-medium mr-2">
+                <span className="text-forest/70 font-sans-medium mr-2">
                   Common Name:
                 </span>
-                <span className="font-semibold text-lg">{mainCommon.name}</span>
+                <span className="font-sans-bold text-lg">
+                  {mainCommon.name}
+                </span>
               </div>
             )}
           </div>
           {taxon.subpopulation_name && (
             <Badge variant="highlight">
               <span className="mr-2">📍</span>
-              Subpopulation: {taxon.subpopulation_name}
+              {taxon.subpopulation_name}
             </Badge>
           )}
         </div>
       </div>
 
       {/* Taxonomy Section */}
-      {taxonomy.length > 0 && (
-        <div className="mb-10">
-          <h3 className="heading text-2xl mb-6 text-forest flex items-center">
-            <span className="mr-3">🔄</span>
-            Taxonomic Classification
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {taxonomy.map(([label, value]) => (
-              <div
-                key={label}
-                className="bg-sand/60 rounded-xl p-4 border border-sage/30 hover:border-sage/50 transition-colors duration-200"
-              >
-                <div className="text-xs font-medium text-forest/60 uppercase tracking-wide mb-1">
-                  {label}
-                </div>
-                <div className="font-semibold text-forest">{value}</div>
+      <div className="mb-12">
+        <h3 className="text-subheadline text-forest mb-6">
+          Taxonomic Classification
+        </h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {taxonomy.map(([rank, name]) => (
+            <div
+              key={rank}
+              className="bg-sand/50 rounded-xl p-4 border border-sage/20"
+            >
+              <div className="text-caption text-forest/60 mb-1 uppercase tracking-wider">
+                {rank}
               </div>
-            ))}
-          </div>
+              <div className="font-sans-semibold text-forest">{name}</div>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
 
       {/* Common Names Section */}
       {otherCommon.length > 0 && (
-        <div className="mb-10">
-          <h3 className="heading text-2xl mb-6 text-forest flex items-center">
-            <span className="mr-3">🌍</span>
-            Common Names
+        <div className="mb-12">
+          <h3 className="text-subheadline text-forest mb-6">
+            Other Common Names
           </h3>
           <div className="flex flex-wrap gap-3">
-            {otherCommon.map((n, idx) => (
-              <Badge key={`${n.name}-${idx}`} variant="secondary">
-                <span className="mr-2">💬</span>
-                {n.name}{" "}
-                <span className="text-xs opacity-70">({n.language})</span>
+            {otherCommon.map((name, index) => (
+              <Badge key={index} variant="secondary">
+                <span className="mr-2">🌍</span>
+                {name.name}
+                <span className="ml-2 text-xs opacity-70">
+                  ({name.language})
+                </span>
               </Badge>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* SSC Groups Section */}
-      {taxon.ssc_groups && taxon.ssc_groups.length > 0 && (
-        <div className="mb-10">
-          <h3 className="heading text-2xl mb-6 text-forest flex items-center">
-            <span className="mr-3">🛡️</span>
-            Specialist Groups
-          </h3>
-          <div className="grid gap-4">
-            {taxon.ssc_groups.map((g, idx) => (
-              <div
-                key={`${g.name}-${idx}`}
-                className="group relative overflow-hidden rounded-xl border-2 border-sage/30 bg-gradient-to-r from-sand/60 to-sand/40 p-6 hover:border-sage/50 hover:shadow-lg transition-all duration-300"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <h4 className="text-lg font-semibold text-forest leading-relaxed mb-3 group-hover:text-moss transition-colors duration-200">
-                      {g.url ? (
-                        <a
-                          href={g.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="underline decoration-gold/70 underline-offset-4 hover:decoration-gold transition-all duration-200"
-                        >
-                          {g.name}
-                          <span className="ml-2 text-gold">↗</span>
-                        </a>
-                      ) : (
-                        g.name
-                      )}
-                    </h4>
-                    {g.description && (
-                      <p className="text-forest/80 leading-relaxed">
-                        {g.description}
-                      </p>
-                    )}
-                  </div>
-                  <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <div className="w-10 h-10 bg-moss/10 rounded-full flex items-center justify-center">
-                      <span className="text-moss text-lg">→</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Decorative elements */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-sage/10 to-transparent rounded-full -translate-y-12 translate-x-12"></div>
-                <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-gold/10 to-transparent rounded-full translate-y-10 -translate-x-10"></div>
-              </div>
             ))}
           </div>
         </div>
@@ -200,43 +150,74 @@ export function TaxonDetails({ taxon }: { taxon: Taxon }) {
 
       {/* Synonyms Section */}
       {taxon.synonyms && taxon.synonyms.length > 0 && (
-        <div className="mb-6">
-          <details className="group">
-            <summary className="heading text-2xl cursor-pointer select-none text-forest hover:text-moss transition-colors duration-200 flex items-center">
-              <span className="mr-3">📚</span>
-              Synonyms
-              <span className="ml-3 text-lg font-normal text-forest/60 group-open:hidden">
-                ({taxon.synonyms.length})
-              </span>
-              <span className="ml-3 transform group-open:rotate-180 transition-transform duration-200 text-forest/60">
-                ▼
-              </span>
-            </summary>
-            <div className="mt-6 pt-6 border-t border-sage/20">
-              <div className="grid md:grid-cols-2 gap-3">
-                {taxon.synonyms.slice(0, 10).map((s, idx) => (
-                  <div
-                    key={`${s.name}-${idx}`}
-                    className="bg-sand/60 rounded-lg px-4 py-3 border border-sage/30 hover:border-sage/50 transition-colors duration-200"
-                  >
-                    <div className="font-medium text-forest">{s.name}</div>
-                    {s.status && (
-                      <div className="text-sm text-forest/60 mt-1">
-                        Status: <span className="italic">{s.status}</span>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-              {taxon.synonyms.length > 10 && (
-                <div className="mt-4 text-center text-sm text-forest/60">
-                  Showing first 10 of {taxon.synonyms.length} synonyms
+        <div className="mb-12">
+          <h3 className="text-subheadline text-forest mb-6">Synonyms</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {taxon.synonyms.slice(0, 10).map((synonym, index) => (
+              <div
+                key={index}
+                className="bg-cream rounded-xl p-4 border border-sage/20"
+              >
+                <div className="font-sans-semibold text-forest mb-1">
+                  {synonym.name}
                 </div>
-              )}
-            </div>
-          </details>
+                {synonym.status && (
+                  <div className="text-caption text-forest/60">
+                    Status: {synonym.status}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          {taxon.synonyms.length > 10 && (
+            <p className="text-caption text-forest/60 mt-4 text-center">
+              Showing 10 of {taxon.synonyms.length} synonyms
+            </p>
+          )}
         </div>
       )}
+
+      {/* SSC Groups Section */}
+      {taxon.ssc_groups && taxon.ssc_groups.length > 0 && (
+        <div className="mb-12">
+          <h3 className="text-subheadline text-forest mb-6">SSC Groups</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {taxon.ssc_groups.map((group, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-br from-sage/10 to-sage/5 rounded-xl p-6 border border-sage/20"
+              >
+                <h4 className="font-sans-semibold text-forest mb-2">
+                  {group.name}
+                </h4>
+                {group.description && (
+                  <p className="text-body-small text-forest/70 mb-3">
+                    {group.description}
+                  </p>
+                )}
+                {group.url && (
+                  <a
+                    href={group.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-gold hover:text-gold/80 transition-colors duration-200 font-sans-medium"
+                  >
+                    Learn More
+                    <span className="ml-1">→</span>
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      <div className="text-center pt-8 border-t-2 border-sage/20">
+        <p className="text-caption text-forest/60">
+          Data sourced from IUCN Red List of Threatened Species
+        </p>
+      </div>
     </div>
   );
 }
