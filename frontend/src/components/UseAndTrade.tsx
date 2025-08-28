@@ -56,7 +56,7 @@ export default function UseAndTrade() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
+      <div className="flex justify-center items-center py-12">
         <div className="text-center">
           <div className="relative">
             <div className="animate-spin rounded-full h-16 w-16 border-4 border-clay/20 border-t-gold mx-auto mb-6"></div>

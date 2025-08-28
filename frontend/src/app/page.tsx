@@ -6,6 +6,7 @@ import { useState, useTransition } from "react";
 import { TaxonDetails, type Taxon } from "@/components/TaxonDetails";
 import ConservationActions from "@/components/ConservationActions";
 import UseAndTrade from "@/components/UseAndTrade";
+import CrueltyFreeChatbot from "@/components/CrueltyFreeChatbot";
 
 type TaxaResponse = {
   taxon: Taxon;
@@ -227,7 +228,7 @@ export default function HomePage() {
       {/* Search Section */}
       <section
         id="search"
-        className="py-20 bg-gradient-to-b from-sand/30 to-cream"
+        className="py-12 bg-gradient-to-b from-sand/30 to-cream"
       >
         <SearchForm />
       </section>
@@ -235,7 +236,7 @@ export default function HomePage() {
       {/* Conservation Actions Section */}
       <section
         id="conservation"
-        className="py-20 bg-gradient-to-b from-cream to-sand/30"
+        className="py-12 bg-gradient-to-b from-cream to-sand/30"
       >
         <div className="container-prose">
           <ConservationActions />
@@ -245,7 +246,7 @@ export default function HomePage() {
       {/* Use and Trade Section */}
       <section
         id="trade"
-        className="py-20 bg-gradient-to-b from-sand/30 to-cream"
+        className="py-12 bg-gradient-to-b from-sand/30 to-cream"
       >
         <div className="container-prose">
           <UseAndTrade />
@@ -268,26 +269,6 @@ export default function HomePage() {
                 understand their status, and discover actions needed to protect
                 our planet's biodiversity.
               </p>
-              <div className="flex space-x-4">
-                <a
-                  href="#"
-                  className="w-10 h-10 bg-sand/10 rounded-lg flex items-center justify-center hover:bg-sand/20 transition-colors duration-200"
-                >
-                  <span className="text-sand">🌐</span>
-                </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 bg-sand/10 rounded-lg flex items-center justify-center hover:bg-sand/20 transition-colors duration-200"
-                >
-                  <span className="text-sand">📧</span>
-                </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 bg-sand/10 rounded-lg flex items-center justify-center hover:bg-sand/20 transition-colors duration-200"
-                >
-                  <span className="text-sand">📱</span>
-                </a>
-              </div>
             </div>
 
             <div>
@@ -366,15 +347,11 @@ export default function HomePage() {
               </ul>
             </div>
           </div>
-
-          <div className="border-t border-sand/20 mt-12 pt-8 text-center">
-            <p className="text-sand/60 text-sm font-sans-medium">
-              © 2024 AnimalHack. Built with ❤️ for wildlife conservation. Data
-              sourced from IUCN Red List.
-            </p>
-          </div>
         </div>
       </footer>
+
+      {/* Cruelty-Free Shopping Chatbot */}
+      <CrueltyFreeChatbot />
     </main>
   );
 }

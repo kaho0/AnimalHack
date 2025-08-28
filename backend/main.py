@@ -9,18 +9,26 @@ from starlette.datastructures import MutableHeaders
 from starlette.middleware import Middleware
 from dotenv import load_dotenv
 
+# Import the cruelty-free chatbot
+from cruelty_free_chatbot import CrueltyFreeChatbot
+
 load_dotenv()
 
 IUCN_BASE_URL = "https://api.iucnredlist.org"
 IUCN_TOKEN = os.getenv("IUCN_API_TOKEN", "").strip()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
+
 if not IUCN_TOKEN:
 	# We still start, but requests will fail with 500 until configured
 	print("[WARN] IUCN_API_TOKEN not set. Set it in backend/.env")
 
+if not GEMINI_API_KEY:
+	print("[WARN] GEMINI_API_KEY not set. Set it in backend/.env")
+
 allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "*")
 ALLOWED_ORIGINS = [o.strip() for o in allowed_origins_env.split(",") if o.strip()] or ["*"]
 
-app = FastAPI(title="AnimalHack IUCN Proxy")
+app = FastAPI(title="AnimalHack IUCN Proxy & Cruelty-Free Shopping Assistant")
 
 app.add_middleware(
 	CORSMiddleware,
@@ -31,11 +39,27 @@ app.add_middleware(
 )
 
 client: Optional[httpx.AsyncClient] = None
+chatbot: Optional[CrueltyFreeChatbot] = None
 
 @app.on_event("startup")
 async def on_startup() -> None:
-	global client
+	global client, chatbot
 	client = httpx.AsyncClient(base_url=IUCN_BASE_URL, timeout=30.0)
+	
+			# Initialize the cruelty-free chatbot if API key is available
+	if GEMINI_API_KEY:
+		try:
+			print(f"[DEBUG] Initializing chatbot with API key: {GEMINI_API_KEY[:10]}...")
+			csv_path = "luxury_animal_products_vegan_alternatives.csv"
+			chatbot = CrueltyFreeChatbot(csv_path, GEMINI_API_KEY)
+			print("[INFO] Cruelty-free chatbot initialized successfully")
+		except Exception as e:
+			print(f"[WARN] Failed to initialize cruelty-free chatbot: {e}")
+			import traceback
+			traceback.print_exc()
+			chatbot = None
+	else:
+		print("[WARN] GEMINI_API_KEY not set, cruelty-free chatbot disabled")
 
 @app.on_event("shutdown")
 async def on_shutdown() -> None:
@@ -107,6 +131,101 @@ async def get_use_and_trade(request: Request) -> Response:
 @app.get("/api/use_and_trade/{code}")
 async def get_use_and_trade_by_code(code: str, request: Request) -> Response:
 	return await forward("GET", f"use_and_trade/{code}", request)
+
+# New endpoints for the cruelty-free shopping chatbot
+@app.post("/api/chatbot/query")
+async def chatbot_query(request: dict):
+	"""
+	Query the cruelty-free shopping chatbot
+	
+	Expected request body:
+	{
+		"query": "What are vegan alternatives to leather handbags?"
+	}
+	"""
+	if not chatbot:
+		raise HTTPException(status_code=503, detail="Cruelty-free chatbot not available. Please check GEMINI_API_KEY configuration.")
+	
+	try:
+		query = request.get("query", "").strip()
+		if not query:
+			raise HTTPException(status_code=400, detail="Query is required")
+		
+		answer = chatbot.answer_query(query)
+		return {"answer": answer, "query": query}
+		
+	except Exception as e:
+		raise HTTPException(status_code=500, detail=f"Failed to process query: {str(e)}")
+
+@app.get("/api/chatbot/suggestions")
+async def get_product_suggestions(category: Optional[str] = None, max_price: Optional[float] = None):
+	"""
+	Get product suggestions based on filters
+	
+	Query parameters:
+	- category: Product category (e.g., "Handbags", "Footwear")
+	- max_price: Maximum price filter
+	"""
+	if not chatbot:
+		raise HTTPException(status_code=503, detail="Cruelty-free chatbot not available. Please check GEMINI_API_KEY configuration.")
+	
+	try:
+		suggestions = chatbot.get_product_suggestions(category=category, max_price=max_price)
+		return {"suggestions": suggestions, "filters": {"category": category, "max_price": max_price}}
+		
+	except Exception as e:
+		raise HTTPException(status_code=500, detail=f"Failed to get suggestions: {str(e)}")
+
+@app.get("/api/chatbot/categories")
+async def get_categories():
+	"""Get all available product categories"""
+	if not chatbot:
+		raise HTTPException(status_code=503, detail="Cruelty-free chatbot not available. Please check GEMINI_API_KEY configuration.")
+	
+	try:
+		categories = set()
+		for chunk in chatbot.chunks:
+			categories.add(chunk['metadata']['Category'])
+		
+		return {"categories": sorted(list(categories))}
+		
+	except Exception as e:
+		raise HTTPException(status_code=500, detail=f"Failed to get categories: {str(e)}")
+
+@app.post("/api/chatbot/chat")
+async def chatbot_chat(request: dict):
+	"""
+	Interactive chat endpoint for the cruelty-free shopping assistant
+	
+	Expected request body:
+	{
+		"message": "I'm looking for a vegan alternative to a leather wallet",
+		"conversation_history": [] // Optional
+	}
+	"""
+	if not chatbot:
+		raise HTTPException(status_code=503, detail="Cruelty-free chatbot not available. Please check GEMINI_API_KEY configuration.")
+	
+	try:
+		message = request.get("message", "").strip()
+		if not message:
+			raise HTTPException(status_code=400, detail="Message is required")
+		
+		# For now, just use the single message query
+		# In the future, this could be enhanced to handle conversation history
+		answer = chatbot.answer_query(message)
+		
+		return {
+			"response": answer,
+			"message": message,
+			"timestamp": "2024-01-01T00:00:00Z"  # You could add proper timestamp handling
+		}
+		
+	except Exception as e:
+		print(f"[ERROR] Chatbot error: {str(e)}")
+		import traceback
+		traceback.print_exc()
+		raise HTTPException(status_code=500, detail=f"Failed to process chat message: {str(e)}")
 
 if __name__ == "__main__":
 	import uvicorn
