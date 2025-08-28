@@ -2,6 +2,7 @@ import os
 from typing import Optional
 
 import httpx
+import markdown
 from fastapi import FastAPI, Request, Response, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse
@@ -137,23 +138,24 @@ async def get_use_and_trade_by_code(code: str, request: Request) -> Response:
 async def chatbot_query(request: dict):
 	"""
 	Query the cruelty-free shopping chatbot
-	
-	Expected request body:
-	{
-		"query": "What are vegan alternatives to leather handbags?"
-	}
 	"""
 	if not chatbot:
 		raise HTTPException(status_code=503, detail="Cruelty-free chatbot not available. Please check GEMINI_API_KEY configuration.")
-	
+
 	try:
 		query = request.get("query", "").strip()
 		if not query:
 			raise HTTPException(status_code=400, detail="Query is required")
-		
-		answer = chatbot.answer_query(query)
-		return {"answer": answer, "query": query}
-		
+
+		answer_md = chatbot.answer_query(query)  # Markdown response
+		answer_html = markdown.markdown(answer_md, extensions=['extra'], output_format='html5')  # Convert to HTML
+
+		return {
+			"answer_markdown": answer_md,
+			"answer_html": answer_html,
+			"query": query
+		}
+
 	except Exception as e:
 		raise HTTPException(status_code=500, detail=f"Failed to process query: {str(e)}")
 
@@ -196,35 +198,27 @@ async def get_categories():
 async def chatbot_chat(request: dict):
 	"""
 	Interactive chat endpoint for the cruelty-free shopping assistant
-	
-	Expected request body:
-	{
-		"message": "I'm looking for a vegan alternative to a leather wallet",
-		"conversation_history": [] // Optional
-	}
 	"""
 	if not chatbot:
 		raise HTTPException(status_code=503, detail="Cruelty-free chatbot not available. Please check GEMINI_API_KEY configuration.")
-	
+
 	try:
 		message = request.get("message", "").strip()
 		if not message:
 			raise HTTPException(status_code=400, detail="Message is required")
-		
-		# For now, just use the single message query
-		# In the future, this could be enhanced to handle conversation history
-		answer = chatbot.answer_query(message)
-		
+
+		answer_md = chatbot.answer_query(message)  # Markdown response
+		answer_html = markdown.markdown(answer_md, extensions=['extra'], output_format='html5')  # Convert to HTML
+
 		return {
-			"response": answer,
+			"response_markdown": answer_md,
+			"response_html": answer_html,
 			"message": message,
-			"timestamp": "2024-01-01T00:00:00Z"  # You could add proper timestamp handling
+			"timestamp": "2024-01-01T00:00:00Z"
 		}
-		
+
 	except Exception as e:
 		print(f"[ERROR] Chatbot error: {str(e)}")
-		import traceback
-		traceback.print_exc()
 		raise HTTPException(status_code=500, detail=f"Failed to process chat message: {str(e)}")
 
 if __name__ == "__main__":

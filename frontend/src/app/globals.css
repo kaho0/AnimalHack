@@ -245,6 +245,21 @@ h4 {
   animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
 /* Gradient utilities */
 .gradient-forest {
   @apply bg-gradient-to-br from-forest via-moss to-forest;
@@ -357,4 +372,104 @@ h4 {
     box-shadow: none !important;
     border: 1px solid #ccc !important;
   }
+}
+
+/* Chatbot Prose Styling */
+.chatbot-prose {
+  @apply text-sm leading-relaxed;
+}
+
+.chatbot-prose h1,
+.chatbot-prose h2,
+.chatbot-prose h3,
+.chatbot-prose h4 {
+  @apply font-sans-bold text-forest mb-2 mt-4 first:mt-0;
+}
+
+.chatbot-prose h1 {
+  @apply text-lg;
+}
+
+.chatbot-prose h2 {
+  @apply text-base;
+}
+
+.chatbot-prose h3,
+.chatbot-prose h4 {
+  @apply text-sm;
+}
+
+.chatbot-prose p {
+  @apply mb-2 last:mb-0 text-forest/90;
+}
+
+.chatbot-prose ul,
+.chatbot-prose ol {
+  @apply mb-2 pl-4 last:mb-0;
+}
+
+.chatbot-prose li {
+  @apply mb-1 text-forest/90;
+}
+
+.chatbot-prose ul li {
+  @apply relative;
+}
+
+.chatbot-prose ul li::before {
+  content: "•";
+  @apply absolute -left-3 text-gold font-bold;
+}
+
+.chatbot-prose ol li {
+  @apply relative;
+}
+
+.chatbot-prose ol li::before {
+  @apply absolute -left-4 text-gold font-bold text-xs;
+}
+
+.chatbot-prose strong {
+  @apply font-sans-bold text-forest;
+}
+
+.chatbot-prose em {
+  @apply font-sans-medium text-sage italic;
+}
+
+.chatbot-prose code {
+  @apply bg-sage/20 px-1.5 py-0.5 rounded text-xs font-mono text-forest;
+}
+
+.chatbot-prose blockquote {
+  @apply border-l-2 border-gold/40 pl-3 py-1 my-2 bg-gold/5 italic text-forest/80;
+}
+
+.chatbot-prose a {
+  @apply text-gold hover:text-gold/80 underline decoration-gold/40 hover:decoration-gold/60;
+}
+
+.chatbot-prose hr {
+  @apply border-sage/20 my-3;
+}
+
+.chatbot-prose table {
+  @apply w-full border-collapse border border-sage/30 my-3;
+}
+
+.chatbot-prose th,
+.chatbot-prose td {
+  @apply border border-sage/30 px-3 py-2 text-left;
+}
+
+.chatbot-prose th {
+  @apply bg-sage/10 font-sans-semibold text-forest;
+}
+
+.chatbot-prose td {
+  @apply text-forest/90;
+}
+
+.chatbot-prose .highlight {
+  @apply bg-gold/20 px-1 py-0.5 rounded text-forest font-sans-medium;
 }

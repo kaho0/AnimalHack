@@ -98,14 +98,23 @@ export default function CrueltyFreeChatbot() {
 
       if (response.ok) {
         const data = await response.json();
+        console.log("Chatbot response:", data); // Debug log
         const botMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
           type: "bot",
-          content: data.response,
+          content:
+            data.response_html ||
+            data.response_markdown ||
+            "No response received",
           timestamp: new Date(),
         };
         setMessages((prev) => [...prev, botMessage]);
       } else {
+        console.error(
+          "Chatbot API error:",
+          response.status,
+          response.statusText
+        );
         throw new Error("Failed to get response");
       }
     } catch (error) {
@@ -200,15 +209,22 @@ export default function CrueltyFreeChatbot() {
                 }`}
               >
                 <div
-                  className={`max-w-[80%] p-3 rounded-2xl ${
+                  className={`max-w-[80%] p-4 rounded-2xl ${
                     message.type === "user"
                       ? "bg-forest text-sand"
-                      : "bg-white text-forest border-2 border-sage/30"
+                      : "bg-white text-forest border-2 border-sage/30 shadow-sm"
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-wrap">
-                    {message.content}
-                  </p>
+                  {message.type === "bot" ? (
+                    <div
+                      className="chatbot-prose animate-fade-in"
+                      dangerouslySetInnerHTML={{ __html: message.content }}
+                    />
+                  ) : (
+                    <p className="text-sm whitespace-pre-wrap">
+                      {message.content}
+                    </p>
+                  )}
                   <p className="text-xs opacity-70 mt-2">
                     {message.timestamp.toLocaleTimeString([], {
                       hour: "2-digit",
