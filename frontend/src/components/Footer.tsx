@@ -30,7 +30,7 @@ export default function Footer() {
           {/* Brand Section */}
           <div className="md:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="bg-gradient-to-br from-[#F8F4E3] to-[#7B1E28] p-3 rounded-xl shadow-lg">
+              <div className="bg-gradient-to-br from-[#F8F4E3] to-[#03160d] p-3 rounded-xl shadow-lg">
                 <TreePine size={32} className="text-[#F8F4E3]" />
               </div>
               <div>
