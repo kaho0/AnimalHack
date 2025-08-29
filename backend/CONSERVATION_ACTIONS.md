@@ -1,6 +1,6 @@
 # Conservation Actions API Endpoints
 
-This document describes the conservation actions endpoints that have been added to the AnimalHack IUCN Proxy.
+This document describes the conservation actions endpoints that have been added to the OneEarth IUCN Proxy.
 
 ## Endpoints
 

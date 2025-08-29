@@ -48,7 +48,7 @@ export const TRANSITION_CONTENT = {
   subtitle:
     "Wildlife protection extends beyond global conservation efforts—it's also about the everyday choices we make as consumers. Every purchase decision has the power to support or harm animal welfare and ecosystem health.",
   description:
-    "That's why AnimalHack connects conservation data with ethical shopping guidance. We help you find cruelty-free, sustainable alternatives that align your lifestyle with your values, creating a world where progress doesn't come at the expense of animal welfare.",
+    "That's why OneEarth connects conservation data with ethical shopping guidance. We help you find cruelty-free, sustainable alternatives that align your lifestyle with your values, creating a world where progress doesn't come at the expense of animal welfare.",
 };
 
 export const SHOPPING_CONTENT = {
@@ -65,7 +65,7 @@ export const FOOTER_CONTENT = {
 export const FOCUS_AREAS_CONTENT = {
   sectionTitle: "Our Focus Areas",
   sectionDescription:
-    "AnimalHack works on four pillars of action: raising awareness, conserving species, stopping harmful trade, and educating everyone about animals.",
+    "OneEarth works on four pillars of action: raising awareness, conserving species, stopping harmful trade, and educating everyone about animals.",
   items: [
     {
       id: 1,

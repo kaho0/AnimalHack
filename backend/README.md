@@ -1,4 +1,4 @@
-# AnimalHack IUCN Proxy (FastAPI)
+# OneEarth IUCN Proxy (FastAPI)
 
 ## Setup
 

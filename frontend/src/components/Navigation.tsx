@@ -21,7 +21,7 @@ export default function Navigation() {
           className="flex items-center gap-3 font-sans-bold text-xl text-gold"
         >
           <span className="font-display-bold text-2xl tracking-wide">
-            AnimalHack
+            OneEarth
           </span>
         </Link>
 

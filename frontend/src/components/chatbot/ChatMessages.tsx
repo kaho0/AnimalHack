@@ -30,7 +30,7 @@ export default function ChatMessages({
           >
             {message.type === "bot" ? (
               <div
-                className="prose prose-xs lg:prose-sm xl:prose-base max-w-none"
+                className="chatbot-message-content text-sm lg:text-base leading-relaxed font-lato"
                 style={{
                   fontSize: "inherit",
                   lineHeight: "inherit",

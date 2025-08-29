@@ -34,8 +34,8 @@ export default function ShoppingImpact() {
                 </p>
 
                 <p className="text-base sm:text-lg font-light text-[#4B5A54] mb-6">
-                  AnimalHack shows kids and families how to pick products that
-                  are kind to animals and safe for nature. You can:
+                  OneEarth shows kids and families how to pick products that are
+                  kind to animals and safe for nature. You can:
                 </p>
 
                 <div className="space-y-3 mb-6">

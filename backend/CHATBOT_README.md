@@ -205,14 +205,14 @@ npm run dev
 
 ## 📝 License
 
-This project is part of AnimalHack and follows the same licensing terms.
+This project is part of OneEarth and follows the same licensing terms.
 
 ## 🙏 Acknowledgments
 
 - **Google Gemini API** for AI capabilities
 - **FAISS** for efficient vector search
 - **Sentence Transformers** for text embeddings
-- **AnimalHack community** for inspiration and support
+- **OneEarth community** for inspiration and support
 
 ---
 

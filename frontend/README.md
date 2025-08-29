@@ -1,4 +1,4 @@
-# AnimalHack Web (Next.js + Tailwind)
+# OneEarth Web (Next.js + Tailwind)
 
 ## Quickstart
 

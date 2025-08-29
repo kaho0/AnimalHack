@@ -1,4 +1,4 @@
-Write-Host "Starting AnimalHack Backend Server..." -ForegroundColor Green
+Write-Host "Starting OneEarth Backend Server..." -ForegroundColor Green
 Write-Host ""
 Write-Host "Make sure you have:" -ForegroundColor Yellow
 Write-Host "1. Python 3.8+ installed" -ForegroundColor White

@@ -8,7 +8,7 @@ export default function QuickQuestions({
   onQuestionClick,
 }: QuickQuestionsProps) {
   return (
-    <div className="px-3 py-2 lg:px-4 lg:py-3 xl:px-6 xl:py-4 border-t border-gray-100 bg-white">
+    <div className="px-3 py-2 lg:px-4 lg:py-3 xl:px-6 xl:py-4 border-t border-gray-100 bg-white font-lato">
       <div className="flex gap-2 overflow-x-auto scrollbar-hide">
         {questions.map((question, idx) => (
           <button

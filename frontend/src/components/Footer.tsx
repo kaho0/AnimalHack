@@ -30,33 +30,33 @@ export default function Footer() {
           {/* Brand Section */}
           <div className="md:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="bg-gradient-to-br from-[#C4A95B] to-[#7B1E28] p-3 rounded-xl shadow-lg">
+              <div className="bg-gradient-to-br from-[#F8F4E3] to-[#7B1E28] p-3 rounded-xl shadow-lg">
                 <TreePine size={32} className="text-[#F8F4E3]" />
               </div>
               <div>
-                <span className="text-3xl font-bold bg-gradient-to-r from-[#F8F4E3] to-[#C4A95B] bg-clip-text text-transparent">
-                  AnimalHack
+                <span className="text-3xl font-bold bg-gradient-to-r from-[#F8F4E3] to-[#ffffff] bg-clip-text text-transparent">
+                  OneEarth
                 </span>
-                <div className="text-sm text-[#C4A95B] font-medium">
+                <div className="text-sm text-[#ffffff] font-medium">
                   Wildlife Conservation Platform
                 </div>
               </div>
             </div>
-            <p className="text-[#C4A95B] leading-relaxed mb-8 max-w-md text-lg">
+            <p className="text-[#ffffff] leading-relaxed mb-8 max-w-md text-lg">
               {FOOTER_CONTENT.description}
             </p>
           </div>
 
           {/* Quick Links */}
-          <div className="relative">
-            <h3 className="text-xl font-bold mb-6 text-[#F8F4E3]">
+          <div className="relative ">
+            <h3 className="text-xl font-bold mb-6 text-[#f6f3e4]">
               Quick Links
             </h3>
             <ul className="space-y-4">
               <li>
                 <a
                   href="#search"
-                  className="text-[#C4A95B] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
+                  className="text-[#d1d0cc] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
                 >
                   <span className="w-2 h-2 bg-[#C4A95B] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
                   Search Species
@@ -65,27 +65,27 @@ export default function Footer() {
               <li>
                 <a
                   href="#conservation"
-                  className="text-[#C4A95B] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
+                  className="text-[#ffffff] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-[#C4A95B] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
+                  <span className="w-2 h-2 bg-[#ffffff] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
                   Conservation Actions
                 </a>
               </li>
               <li>
                 <a
                   href="#trade"
-                  className="text-[#C4A95B] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
+                  className="text-[#ffffff] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-[#C4A95B] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
+                  <span className="w-2 h-2 bg-[#ffffff] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
                   Use & Trade
                 </a>
               </li>
               <li>
                 <a
                   href="#chat"
-                  className="text-[#C4A95B] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
+                  className="text-[#ffffff] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-[#C4A95B] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
+                  <span className="w-2 h-2 bg-[#ffffff] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
                   Chat Assistant
                 </a>
               </li>
@@ -99,36 +99,36 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-[#C4A95B] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
+                  className="text-[#ffffff] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-[#C4A95B] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
+                  <span className="w-2 h-2 bg-[#ffffff] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
                   API Documentation
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-[#C4A95B] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
+                  className="text-[#ffffff] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-[#C4A95B] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
+                  <span className="w-2 h-2 bg-[#ffffff] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
                   Data Sources
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-[#C4A95B] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
+                  className="text-[#ffffff] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-[#C4A95B] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
+                  <span className="w-2 h-2 bg-[#ffffff] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
                   Conservation Guide
                 </a>
               </li>
               <li>
                 <a
                   href="#contact"
-                  className="text-[#C4A95B] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
+                  className="text-[#ffffff] hover:text-[#F8F4E3] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-[#C4A95B] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
+                  <span className="w-2 h-2 bg-[#ffffff] rounded-full mr-3 group-hover:bg-[#F8F4E3] transition-colors duration-300"></span>
                   Contact Support
                 </a>
               </li>

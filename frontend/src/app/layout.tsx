@@ -3,7 +3,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 
 export const metadata: Metadata = {
-  title: "AnimalHack - Wildlife Conservation Database",
+  title: "OneEarth - Wildlife Conservation Database",
   description:
     "Explore species, understand conservation status, and learn about actions needed to protect our planet's biodiversity.",
 };

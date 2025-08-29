@@ -29,7 +29,7 @@ if not GEMINI_API_KEY:
 allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "*")
 ALLOWED_ORIGINS = [o.strip() for o in allowed_origins_env.split(",") if o.strip()] or ["*"]
 
-app = FastAPI(title="AnimalHack IUCN Proxy & Cruelty-Free Shopping Assistant")
+app = FastAPI(title="OneEarth IUCN Proxy & Cruelty-Free Shopping Assistant")
 
 app.add_middleware(
 	CORSMiddleware,
