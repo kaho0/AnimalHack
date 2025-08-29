@@ -19,7 +19,11 @@ const config: Config = {
         gold: "#c8a96b",
       },
       fontFamily: {
+        // Primary elegant serif font for all headings and important text
+        serif: ['"Playfair Display"', "ui-serif", "Georgia", "serif"],
+        // Secondary serif for body text and secondary headings
         serifDisplay: ['"Playfair Display"', "ui-serif", "Georgia", "serif"],
+        // Sans-serif as fallback for UI elements and small text
         sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
         sourceSans: [
           "Source Sans Pro",

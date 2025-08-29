@@ -201,15 +201,15 @@ export function TaxonDetails({ taxon }: { taxon: Taxon }) {
 
             {/* Scientific Name and Authority */}
             <div className="text-center font-inter">
-              <h1 className="text-6xl font-light text-white mb-2 font-crimson">
-                <em>{taxon.scientific_name}</em>
+              <h1 className="text-6xl font-light mb-2 font-crimson heading-primary">
+                <em className="latin-name">{taxon.scientific_name}</em>
               </h1>
               {taxon.authority && (
-                <div className="text-lg text-gray-200 mb-3 font-crimson">
+                <div className="text-lg text-meta-muted mb-3 font-crimson">
                   {taxon.authority}
                 </div>
               )}
-              <div className="text-xl text-white font-medium font-crimson">
+              <div className="text-xl text-body-soft font-medium font-crimson">
                 {mainCommon ? `Common Name: ${mainCommon.name}` : ""}
               </div>
             </div>
@@ -219,7 +219,7 @@ export function TaxonDetails({ taxon }: { taxon: Taxon }) {
           <div className="space-y-8 font-inter">
             {/* Taxonomic Classification */}
             <div className="mt-10">
-              <h2 className="text-2xl font-semibold text-white mb-6 font-crimson">
+              <h2 className="text-2xl font-semibold mb-6 font-crimson heading-parchment">
                 Taxonomic Classification
               </h2>
 
@@ -228,9 +228,9 @@ export function TaxonDetails({ taxon }: { taxon: Taxon }) {
                   .filter(([, value]) => Boolean(value))
                   .map(([label, value]) => (
                     <li key={label} className="flex text-lg">
-                      <span className="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                      <span className="text-gray-100">
-                        <span className="font-medium text-white font-crimson">
+                      <span className="w-2 h-2 bg-[#F5F5DC] rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                      <span className="text-body-soft">
+                        <span className="font-semibold font-crimson heading-parchment">
                           {label}:
                         </span>{" "}
                         {value}
@@ -243,19 +243,19 @@ export function TaxonDetails({ taxon }: { taxon: Taxon }) {
             {/* Regional Variations / Other Names */}
             {otherCommon.length > 0 && (
               <div className="mt-6">
-                <h3 className="text-2xl font-semibold text-white mb-6 font-crimson">
+                <h3 className="text-2xl font-semibold mb-6 font-crimson heading-parchment">
                   Regional Variations
                 </h3>
                 <ul className="space-y-2">
                   {otherCommon.map((cn, idx) => (
                     <li key={idx} className="flex text-lg">
-                      <span className="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                      <span className="text-gray-100">
-                        <span className="font-medium text-white font-crimson">
+                      <span className="w-2 h-2 bg-[#F5F5DC] rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                      <span className="text-body-soft">
+                        <span className="font-semibold font-crimson heading-parchment">
                           {cn.name}
                         </span>
                         {cn.language && (
-                          <span className="text-gray-300">
+                          <span className="text-meta-beige">
                             {" "}
                             – {formatLanguage(cn.language)}
                           </span>
@@ -270,12 +270,12 @@ export function TaxonDetails({ taxon }: { taxon: Taxon }) {
             {/* Subpopulation - integrated naturally */}
             {taxon.subpopulation_name && (
               <div className="mt-6">
-                <h3 className="text-2xl font-light text-white mb-6 font-crimson">
+                <h3 className="text-2xl font-light mb-6 font-crimson heading-parchment">
                   Subpopulation
                 </h3>
                 <div className="flex text-lg">
-                  <span className="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                  <span className="text-white font-medium">
+                  <span className="w-2 h-2 bg-[#F5F5DC] rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  <span className="text-body-soft font-medium">
                     {taxon.subpopulation_name}
                   </span>
                 </div>
@@ -285,15 +285,15 @@ export function TaxonDetails({ taxon }: { taxon: Taxon }) {
             {/* Synonyms */}
             {taxon.synonyms && taxon.synonyms.length > 0 && (
               <div className="mt-6">
-                <h3 className="text-2xl font-light text-white mb-6 font-crimson">
+                <h3 className="text-2xl font-light mb-6 font-crimson heading-parchment">
                   Synonyms
                 </h3>
                 <ul className="space-y-2">
                   {taxon.synonyms.map((synonym, index) => (
                     <li key={index} className="flex text-lg">
-                      <span className="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                      <span className="text-gray-100 font-crimson">
-                        <em>{synonym.name}</em>
+                      <span className="w-2 h-2 bg-[#F5F5DC] rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                      <span className="text-body-soft font-crimson">
+                        <em className="latin-name">{synonym.name}</em>
                       </span>
                     </li>
                   ))}
