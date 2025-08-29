@@ -61,3 +61,35 @@ export const FOOTER_CONTENT = {
   description:
     "Bridging conservation science with ethical consumer choices. Explore wildlife data, understand conservation challenges, and make purchases that protect biodiversity.",
 };
+
+export const CONSERVATION_ACTIONS_CONTENT = {
+  header: {
+    title: "Conservation Actions",
+    subtitle:
+      "Discover the comprehensive strategies and measures available for protecting species and their habitats worldwide.",
+  },
+  loading: {
+    title: "Loading conservation actions...",
+    subtitle: "Gathering data from IUCN database",
+  },
+  error: {
+    title: "Error Loading Data",
+    subtitle: "Unable to fetch conservation actions",
+    retryButton: "Try Again",
+  },
+  stats: {
+    actionsAvailable: "Actions Available",
+    protectionManagement: "Protection & Management",
+    speciesEducation: "Species & Education",
+  },
+  categories: {
+    showMore: "Show More Actions",
+    showLess: "Show Less",
+    showAllCategories: "Show All Conservation Categories",
+    showLessCategories: "Show Less Categories",
+  },
+  info: {
+    expandHint:
+      "Click on any category to expand and see all conservation actions",
+  },
+};
