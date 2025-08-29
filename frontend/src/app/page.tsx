@@ -3,7 +3,6 @@
 import ConservationActions from "@/components/ConservationActions";
 import UseAndTrade from "@/components/UseAndTrade";
 import Hero from "@/components/Hero";
-import Feature from "@/components/Feature";
 import Transition from "@/components/Transition";
 import Shopping from "@/components/Shopping";
 import Footer from "@/components/Footer";
@@ -14,7 +13,7 @@ import FocusAreas from "@/components/FocusAreas";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#F8F4E3]">
+    <main className="min-h-screen bg-white">
       {/* Hero Section */}
       <Hero />
       <ThreatsToWildlife />

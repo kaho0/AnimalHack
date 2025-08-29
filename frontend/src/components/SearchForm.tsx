@@ -1,7 +1,7 @@
 import { useState, useTransition } from "react";
 import { iucnClient } from "@/lib/iucnClient";
 import { TaxonDetails, type Taxon } from "@/components/TaxonDetails";
-import { Search, AlertCircle } from "lucide-react";
+import { Search, AlertCircle, Globe, Database } from "lucide-react";
 import { SEARCH_CONTENT } from "@/constants/content";
 
 type TaxaResponse = {
@@ -35,117 +35,159 @@ export default function SearchForm() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-20">
-      {/* Header Section */}
-      <div className="text-center mb-16">
-        <div className="inline-flex items-center justify-center p-4 bg-[#166D3B]/20 rounded-full mb-6 backdrop-blur-sm">
-          <Search className="w-8 h-8 text-[#166D3B]" />
-        </div>
-        <h2 className="text-4xl font-bold text-[#166D3B] mb-4">
-          {SEARCH_CONTENT.title}
-        </h2>
-        <p className="text-xl text-[#7B1E28] max-w-3xl mx-auto leading-relaxed">
-          {SEARCH_CONTENT.subtitle}
-        </p>
-      </div>
+    <>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-20">
+        {/* Header Section - Magazine Style */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center justify-center p-6 bg-gradient-to-r from-[#61471a] to-[#c4704a] rounded-full mb-8 backdrop-blur-sm shadow-2xl animate-scale-in">
+            <Database className="w-10 h-10 text-[#F5F5DC]" />
+          </div>
 
-      {/* Search Form */}
-      <div className="bg-[#F8F4E3] rounded-3xl shadow-2xl border border-[#C4A95B]/30 overflow-hidden mb-12">
-        <div className="bg-gradient-to-r from-[#166D3B] to-[#98AE87] px-8 py-6 border-b border-[#C4A95B]/20">
-          <h3 className="text-lg font-semibold text-[#F8F4E3] mb-2">
-            {SEARCH_CONTENT.formTitle}
-          </h3>
-          <p className="text-sm text-[#C4A95B]">
-            {SEARCH_CONTENT.formSubtitle}
-          </p>
+          {/* Main Title with Magazine Typography */}
+          <div className="mb-6 animate-fade-in">
+            <h1 className="text-6xl lg:text-7xl font-light text-[#F5F5DC] mb-4 leading-tight tracking-tight">
+              Explore Species
+              <br />
+              <span className="font-normal text-[#c4704a]">
+                Conservation Data
+              </span>
+            </h1>
+          </div>
+
+          {/* Subtitle with sophisticated styling */}
+          <div
+            className="max-w-4xl mx-auto animate-fade-in"
+            style={{ animationDelay: "0.2s" }}
+          >
+            <p className="text-xl text-[#F5F5DC]/80 leading-relaxed font-light tracking-wide">
+              Search the IUCN Red List database to discover detailed information
+              about species, their conservation status, and the threats they
+              face in the wild.
+            </p>
+          </div>
         </div>
 
-        <form onSubmit={onSearch} className="p-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-[#166D3B]">
-                {SEARCH_CONTENT.labels.genus}{" "}
-                <span className="text-[#7B1E28]">*</span>
-              </label>
-              <input
-                className="w-full px-4 py-3 border border-[#C4A95B]/40 rounded-xl focus:ring-2 focus:ring-[#7B1E28] focus:border-[#7B1E28] transition-colors bg-white/80 focus:bg-white text-[#166D3B] placeholder-[#7B1E28]"
-                placeholder={SEARCH_CONTENT.placeholders.genus}
-                value={genus}
-                onChange={(e) => setGenus(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-[#166D3B]">
-                {SEARCH_CONTENT.labels.species}{" "}
-                <span className="text-[#7B1E28]">*</span>
-              </label>
-              <input
-                className="w-full px-4 py-3 border border-[#C4A95B]/40 rounded-xl focus:ring-2 focus:ring-[#7B1E28] focus:border-[#7B1E28] transition-colors bg-white/80 focus:bg-white text-[#166D3B] placeholder-[#7B1E28]"
-                placeholder={SEARCH_CONTENT.placeholders.species}
-                value={species}
-                onChange={(e) => setSpecies(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-[#166D3B]">
-                {SEARCH_CONTENT.labels.subspecies}
-                <span className="text-[#7B1E28] text-xs ml-1">(optional)</span>
-              </label>
-              <input
-                className="w-full px-4 py-3 border border-[#C4A95B]/40 rounded-xl focus:ring-2 focus:ring-[#7B1E28] focus:border-[#7B1E28] transition-colors bg-white/80 focus:bg-white text-[#166D3B] placeholder-[#7B1E28]"
-                placeholder={SEARCH_CONTENT.placeholders.subspecies}
-                value={infra}
-                onChange={(e) => setInfra(e.target.value)}
-              />
+        {/* Search Form - Magazine Layout */}
+        <div
+          className="bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] rounded-3xl shadow-2xl border border-[#61471a]/30 overflow-hidden mb-16 animate-scale-in"
+          style={{ animationDelay: "0.4s" }}
+        >
+          {/* Form Header */}
+          <div className="bg-gradient-to-r from-[#61471a] via-[#c4704a] to-[#61471a] px-10 py-8 border-b border-[#c4704a]/20">
+            <div className="flex items-center space-x-4">
+              <Search className="w-8 h-8 text-[#F5F5DC]" />
+              <div>
+                <h3 className="text-2xl font-semibold text-[#F5F5DC] mb-2">
+                  Scientific Name Search
+                </h3>
+                <p className="text-[#F5F5DC]/80 text-lg">
+                  Enter the genus and species name to find conservation data
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-            <button
-              type="submit"
-              className="w-full sm:w-auto bg-[#166D3B] hover:bg-[#98AE87] text-[#F8F4E3] font-semibold px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center min-w-[200px] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
-              disabled={isPending}
+          {/* Search Form */}
+          <form onSubmit={onSearch} className="p-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+              <div
+                className="space-y-3 animate-slide-in-left"
+                style={{ animationDelay: "0.6s" }}
+              >
+                <label className="block text-lg font-medium text-[#F5F5DC]">
+                  Genus <span className="text-[#c4704a] text-xl">*</span>
+                </label>
+                <input
+                  className="w-full px-6 py-4 border-2 border-[#61471a]/40 rounded-2xl focus:ring-4 focus:ring-[#c4704a]/20 focus:border-[#c4704a] transition-all duration-300 bg-[#2a2a2a] text-[#F5F5DC] placeholder-[#F5F5DC]/50 text-lg font-light tracking-wide magazine-focus"
+                  placeholder="e.g., Cervus"
+                  value={genus}
+                  onChange={(e) => setGenus(e.target.value)}
+                  required
+                />
+              </div>
+              <div
+                className="space-y-3 animate-fade-in"
+                style={{ animationDelay: "0.7s" }}
+              >
+                <label className="block text-lg font-medium text-[#F5F5DC]">
+                  Species <span className="text-[#c4704a] text-xl">*</span>
+                </label>
+                <input
+                  className="w-full px-6 py-4 border-2 border-[#61471a]/40 rounded-2xl focus:ring-4 focus:ring-[#c4704a]/20 focus:border-[#c4704a] transition-all duration-300 bg-[#2a2a2a] text-[#F5F5DC] placeholder-[#F5F5DC]/50 text-lg font-light tracking-wide magazine-focus"
+                  placeholder="e.g., elaphus"
+                  value={species}
+                  onChange={(e) => setSpecies(e.target.value)}
+                  required
+                />
+              </div>
+              <div
+                className="space-y-3 animate-slide-in-right"
+                style={{ animationDelay: "0.8s" }}
+              >
+                <label className="block text-lg font-medium text-[#F5F5DC]">
+                  Subspecies
+                  <span className="text-[#F5F5DC]/60 text-sm ml-2 font-normal">
+                    (optional)
+                  </span>
+                </label>
+                <input
+                  className="w-full px-6 py-4 border-2 border-[#61471a]/40 rounded-2xl focus:ring-4 focus:ring-[#c4704a]/20 focus:border-[#c4704a] transition-all duration-300 bg-[#2a2a2a] text-[#F5F5DC] placeholder-[#F5F5DC]/50 text-lg font-light tracking-wide magazine-focus"
+                  placeholder="e.g., scoticus"
+                  value={infra}
+                  onChange={(e) => setInfra(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Search Button */}
+            <div
+              className="flex flex-col sm:flex-row gap-6 items-center justify-center animate-fade-in"
+              style={{ animationDelay: "0.9s" }}
             >
-              {isPending ? (
-                <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#F8F4E3] mr-3"></div>
-                  {SEARCH_CONTENT.buttons.searching}
-                </>
-              ) : (
-                <>
-                  <Search className="w-5 h-5 mr-2" />
-                  {SEARCH_CONTENT.buttons.search}
-                </>
-              )}
-            </button>
+              <button
+                type="submit"
+                className="group w-full sm:w-auto bg-gradient-to-r from-[#61471a] to-[#c4704a] hover:from-[#c4704a] hover:to-[#61471a] text-[#F5F5DC] font-semibold px-12 py-5 rounded-2xl transition-all duration-500 flex items-center justify-center min-w-[250px] disabled:opacity-50 disabled:cursor-not-allowed shadow-2xl hover:shadow-[#c4704a]/25 text-xl tracking-wide magazine-hover"
+                disabled={isPending}
+              >
+                {isPending ? (
+                  <>
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#F5F5DC] mr-4"></div>
+                    Searching...
+                  </>
+                ) : (
+                  <>
+                    <Search className="w-6 h-6 mr-3 group-hover:scale-110 transition-transform duration-300" />
+                    Search Species
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {result && "error" in (result as any) && (
+          <div className="max-w-2xl mx-auto bg-[#c4704a]/10 border-2 border-[#c4704a]/30 rounded-2xl p-8 animate-fade-in">
+            <div className="flex items-center">
+              <AlertCircle className="w-8 h-8 text-[#c4704a] mr-4" />
+              <div>
+                <h3 className="text-[#c4704a] font-semibold text-xl">
+                  Search Error
+                </h3>
+                <p className="text-[#F5F5DC]/80 text-lg mt-2">
+                  {(result as any).error}
+                </p>
+              </div>
+            </div>
           </div>
-        </form>
+        )}
       </div>
 
-      {/* Results Section */}
+      {/* Full-width results so background spans edge-to-edge */}
       {result && !("error" in (result as any)) && (
         <div className="animate-fade-in">
           <TaxonDetails taxon={(result as TaxaResponse).taxon} />
         </div>
       )}
-
-      {result && "error" in (result as any) && (
-        <div className="max-w-2xl mx-auto bg-[#7B1E28]/10 border border-[#7B1E28]/20 rounded-xl p-6 animate-fade-in">
-          <div className="flex items-center">
-            <AlertCircle className="w-6 h-6 text-[#7B1E28] mr-3" />
-            <div>
-              <h3 className="text-[#7B1E28] font-semibold">
-                {SEARCH_CONTENT.error.title}
-              </h3>
-              <p className="text-[#7B1E28]/80 text-sm mt-1">
-                {(result as any).error}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+    </>
   );
 }

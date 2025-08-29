@@ -9,7 +9,87 @@
   --accent: #c8a96b;
 }
 
+/* Magazine-style animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.5s ease-out forwards;
+}
+
+/* Magazine-style hover effects */
+.magazine-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.magazine-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Sophisticated focus states */
+.magazine-focus:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(196, 112, 74, 0.3);
+  border-color: #c4704a;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400;1,600&family=Source+Sans+3:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap");
 
 html,
 body {
@@ -488,4 +568,24 @@ h4 {
 
 .chatbot-prose .highlight {
   @apply bg-gold/20 px-1 py-0.5 rounded text-forest font-sans-medium;
+}
+
+/* Wikipedia-like typography helpers */
+.wiki-serif {
+  font-family: "Source Serif 4", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+.wiki-sans {
+  font-family: "Source Sans 3", ui-sans-serif, system-ui, -apple-system,
+    Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+/* Custom font utilities */
+.font-crimson {
+  font-family: "Crimson Text", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+.font-inter {
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI,
+    Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
 }

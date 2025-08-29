@@ -38,24 +38,25 @@ export type Taxon = {
 function Badge({
   children,
   variant = "default",
+  style,
 }: {
   children: React.ReactNode;
   variant?: "default" | "highlight" | "secondary";
+  style?: React.CSSProperties;
 }) {
   const baseClasses =
-    "inline-flex items-center rounded-full px-4 py-2 text-sm font-sans-medium border transition-all duration-200";
+    "inline-flex items-center rounded-full px-4 py-2 text-sm font-medium transition-all duration-200";
 
   const variants = {
-    default:
-      "bg-sand/80 text-forest border-sage/40 hover:bg-sand hover:border-sage/60",
-    highlight:
-      "bg-gold/20 text-forest border-gold/40 hover:bg-gold/30 hover:border-gold/60",
-    secondary:
-      "bg-sage/20 text-forest border-sage/30 hover:bg-sage/30 hover:border-sage/50",
+    default: "bg-[#61471a]/20 text-[#F5F5DC] border border-[#61471a]/40",
+    highlight: "bg-[#c4704a]/20 text-[#c4704a] border border-[#c4704a]/40",
+    secondary: "bg-[#2a2a2a] text-[#F5F5DC]/80 border border-[#61471a]/30",
   };
 
   return (
-    <span className={`${baseClasses} ${variants[variant]}`}>{children}</span>
+    <span className={`${baseClasses} ${variants[variant]}`} style={style}>
+      {children}
+    </span>
   );
 }
 
@@ -90,7 +91,13 @@ export function TaxonDetails({ taxon }: { taxon: Taxon }) {
     fetchSpeciesImage();
   };
 
-  const taxonomy = [
+  const mainCommon = (taxon.common_names || []).find((n) => n.main);
+  const otherCommon = (taxon.common_names || [])
+    .filter((n) => !n.main)
+    .slice(0, 6);
+
+  // Build taxonomy pairs per new structure
+  const taxonomyPairs: Array<[string, string | undefined]> = [
     ["Kingdom", taxon.kingdom_name],
     ["Phylum", taxon.phylum_name],
     ["Class", taxon.class_name],
@@ -98,201 +105,203 @@ export function TaxonDetails({ taxon }: { taxon: Taxon }) {
     ["Family", taxon.family_name],
     ["Genus", taxon.genus_name],
     ["Species", taxon.species_name],
-  ].filter(([, v]) => Boolean(v)) as [string, string][];
+  ];
 
-  const mainCommon = (taxon.common_names || []).find((n) => n.main);
-  const otherCommon = (taxon.common_names || [])
-    .filter((n) => !n.main)
-    .slice(0, 8);
+  // Map language codes to full names for display
+  const formatLanguage = (language?: string) => {
+    if (!language) return "";
+    const value = language.trim();
+    const lower = value.toLowerCase();
+    const map: Record<string, string> = {
+      eng: "English",
+      en: "English",
+      english: "English",
+      fra: "French",
+      fre: "French",
+      fr: "French",
+      french: "French",
+      deu: "German",
+      ger: "German",
+      de: "German",
+      german: "German",
+      spa: "Spanish",
+      es: "Spanish",
+      spanish: "Spanish",
+      por: "Portuguese",
+      pt: "Portuguese",
+      portuguese: "Portuguese",
+      ita: "Italian",
+      it: "Italian",
+      italian: "Italian",
+      nld: "Dutch",
+      dut: "Dutch",
+      nl: "Dutch",
+      dutch: "Dutch",
+      rus: "Russian",
+      ru: "Russian",
+      russian: "Russian",
+      zho: "Chinese",
+      chi: "Chinese",
+      zh: "Chinese",
+      chinese: "Chinese",
+      ara: "Arabic",
+      ar: "Arabic",
+      arabic: "Arabic",
+      hin: "Hindi",
+      hi: "Hindi",
+      hindi: "Hindi",
+      jpn: "Japanese",
+      ja: "Japanese",
+      japanese: "Japanese",
+      kor: "Korean",
+      ko: "Korean",
+      korean: "Korean",
+      deu_ger: "German",
+    };
+    return map[lower] || value;
+  };
 
   return (
-    <div className="card p-8 md:p-12 max-w-5xl mx-auto">
-      {/* Header Section */}
-      <div className="text-center mb-12 pb-8 border-b-2 border-sage/20">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div className="flex-1">
-            <h2 className="text-headline text-forest mb-4">
-              {taxon.scientific_name}
-            </h2>
-            {taxon.authority && (
-              <p className="text-body text-forest/70 italic font-sans-medium">
-                {taxon.authority}
-              </p>
-            )}
-            {mainCommon && (
-              <div className="mt-4 inline-block bg-gold/20 text-forest px-4 py-2 rounded-xl border border-gold/40">
-                <span className="text-forest/70 font-sans-medium mr-2">
-                  Common Name:
-                </span>
-                <span className="font-sans-bold text-lg">
-                  {mainCommon.name}
-                </span>
-              </div>
-            )}
-          </div>
-
-          {/* Species Image */}
-          <div className="flex flex-col items-center gap-4">
-            {imageLoading ? (
-              <div className="w-48 h-48 bg-sage/20 rounded-xl flex items-center justify-center">
-                <div className="flex flex-col items-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage mb-2"></div>
-                  <div className="text-sage/60 text-sm">Loading image...</div>
+    <div style={{ backgroundColor: "#033222" }}>
+      <div className="max-w-6xl mx-auto py-12">
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Left Column - Image and Title */}
+          <div className="space-y-4">
+            {/* Image */}
+            <div className="bg-gray-50 rounded-lg overflow-hidden mt-12">
+              {imageLoading ? (
+                <div className="w-full aspect-[4/3] flex items-center justify-center">
+                  <div className="text-gray-500 text-sm">Loading...</div>
                 </div>
-              </div>
-            ) : speciesImage ? (
-              <div className="relative animate-image-load">
+              ) : speciesImage ? (
                 <img
                   src={speciesImage}
-                  alt={`${taxon.scientific_name}`}
-                  className="w-48 h-48 object-cover rounded-xl border-2 border-sage/30 shadow-lg"
+                  alt={taxon.scientific_name}
+                  className="w-full aspect-[4/3] object-cover"
                   onError={() => setSpeciesImage(null)}
                 />
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-sage/90 text-white text-xs px-3 py-1 rounded-full">
-                  Wikimedia Commons
-                </div>
-              </div>
-            ) : imageError ? (
-              <div className="w-48 h-48 bg-red-50 rounded-xl flex flex-col items-center justify-center border-2 border-red-200">
-                <div className="text-red-400 text-center mb-3">
-                  <div className="text-2xl mb-2">⚠️</div>
-                  <div className="text-xs">Failed to load image</div>
-                </div>
-                <button
-                  onClick={handleRetry}
-                  className="px-3 py-1 bg-red-100 hover:bg-red-200 text-red-700 text-xs rounded-lg transition-colors"
-                >
-                  Retry
-                </button>
-              </div>
-            ) : (
-              <div className="w-48 h-48 bg-sage/20 rounded-xl flex items-center justify-center border-2 border-dashed border-sage/30">
-                <div className="text-sage/60 text-center">
-                  <div className="text-2xl mb-2">🦌</div>
-                  <div className="text-xs">No image available</div>
-                </div>
-              </div>
-            )}
-
-            {taxon.subpopulation_name && (
-              <Badge variant="highlight">
-                <span className="mr-2">📍</span>
-                {taxon.subpopulation_name}
-              </Badge>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Taxonomy Section */}
-      <div className="mb-12">
-        <h3 className="text-subheadline text-forest mb-6">
-          Taxonomic Classification
-        </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {taxonomy.map(([rank, name]) => (
-            <div
-              key={rank}
-              className="bg-sand/50 rounded-xl p-4 border border-sage/20"
-            >
-              <div className="text-caption text-forest/60 mb-1 uppercase tracking-wider">
-                {rank}
-              </div>
-              <div className="font-sans-semibold text-forest">{name}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Common Names Section */}
-      {otherCommon.length > 0 && (
-        <div className="mb-12">
-          <h3 className="text-subheadline text-forest mb-6">
-            Other Common Names
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {otherCommon.map((name, index) => (
-              <Badge key={index} variant="secondary">
-                <span className="mr-2">🌍</span>
-                {name.name}
-                <span className="ml-2 text-xs opacity-70">
-                  ({name.language})
-                </span>
-              </Badge>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Synonyms Section */}
-      {taxon.synonyms && taxon.synonyms.length > 0 && (
-        <div className="mb-12">
-          <h3 className="text-subheadline text-forest mb-6">Synonyms</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {taxon.synonyms.slice(0, 10).map((synonym, index) => (
-              <div
-                key={index}
-                className="bg-cream rounded-xl p-4 border border-sage/20"
-              >
-                <div className="font-sans-semibold text-forest mb-1">
-                  {synonym.name}
-                </div>
-                {synonym.status && (
-                  <div className="text-caption text-forest/60">
-                    Status: {synonym.status}
+              ) : imageError ? (
+                <div className="w-full aspect-[4/3] flex flex-col items-center justify-center">
+                  <div className="text-gray-500 text-sm mb-2">
+                    Failed to load
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
-          {taxon.synonyms.length > 10 && (
-            <p className="text-caption text-forest/60 mt-4 text-center">
-              Showing 10 of {taxon.synonyms.length} synonyms
-            </p>
-          )}
-        </div>
-      )}
-
-      {/* SSC Groups Section */}
-      {taxon.ssc_groups && taxon.ssc_groups.length > 0 && (
-        <div className="mb-12">
-          <h3 className="text-subheadline text-forest mb-6">SSC Groups</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {taxon.ssc_groups.map((group, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-br from-sage/10 to-sage/5 rounded-xl p-6 border border-sage/20"
-              >
-                <h4 className="font-sans-semibold text-forest mb-2">
-                  {group.name}
-                </h4>
-                {group.description && (
-                  <p className="text-body-small text-forest/70 mb-3">
-                    {group.description}
-                  </p>
-                )}
-                {group.url && (
-                  <a
-                    href={group.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-gold hover:text-gold/80 transition-colors duration-200 font-sans-medium"
+                  <button
+                    onClick={fetchSpeciesImage}
+                    className="px-3 py-1 text-xs bg-gray-600 text-white rounded"
                   >
-                    Learn More
-                    <span className="ml-1">→</span>
-                  </a>
-                )}
+                    Retry
+                  </button>
+                </div>
+              ) : (
+                <div className="w-full aspect-[4/3] flex items-center justify-center border-2 border-dashed border-gray-300">
+                  <div className="text-gray-400 text-sm">No image</div>
+                </div>
+              )}
+            </div>
+
+            {/* Scientific Name and Authority */}
+            <div className="text-center font-inter">
+              <h1 className="text-6xl font-light text-white mb-2 font-crimson">
+                <em>{taxon.scientific_name}</em>
+              </h1>
+              {taxon.authority && (
+                <div className="text-lg text-gray-200 mb-3 font-crimson">
+                  {taxon.authority}
+                </div>
+              )}
+              <div className="text-xl text-white font-medium font-crimson">
+                {mainCommon ? `Common Name: ${mainCommon.name}` : ""}
               </div>
-            ))}
+            </div>
+          </div>
+
+          {/* Right Column - Classification and Variations */}
+          <div className="space-y-8 font-inter">
+            {/* Taxonomic Classification */}
+            <div className="mt-10">
+              <h2 className="text-2xl font-semibold text-white mb-6 font-crimson">
+                Taxonomic Classification
+              </h2>
+
+              <ul className="space-y-2">
+                {taxonomyPairs
+                  .filter(([, value]) => Boolean(value))
+                  .map(([label, value]) => (
+                    <li key={label} className="flex text-lg">
+                      <span className="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                      <span className="text-gray-100">
+                        <span className="font-medium text-white font-crimson">
+                          {label}:
+                        </span>{" "}
+                        {value}
+                      </span>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+
+            {/* Regional Variations / Other Names */}
+            {otherCommon.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-2xl font-semibold text-white mb-6 font-crimson">
+                  Regional Variations
+                </h3>
+                <ul className="space-y-2">
+                  {otherCommon.map((cn, idx) => (
+                    <li key={idx} className="flex text-lg">
+                      <span className="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                      <span className="text-gray-100">
+                        <span className="font-medium text-white font-crimson">
+                          {cn.name}
+                        </span>
+                        {cn.language && (
+                          <span className="text-gray-300">
+                            {" "}
+                            – {formatLanguage(cn.language)}
+                          </span>
+                        )}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Subpopulation - integrated naturally */}
+            {taxon.subpopulation_name && (
+              <div className="mt-6">
+                <h3 className="text-2xl font-light text-white mb-6 font-crimson">
+                  Subpopulation
+                </h3>
+                <div className="flex text-lg">
+                  <span className="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                  <span className="text-white font-medium">
+                    {taxon.subpopulation_name}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Synonyms */}
+            {taxon.synonyms && taxon.synonyms.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-2xl font-light text-white mb-6 font-crimson">
+                  Synonyms
+                </h3>
+                <ul className="space-y-2">
+                  {taxon.synonyms.map((synonym, index) => (
+                    <li key={index} className="flex text-lg">
+                      <span className="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                      <span className="text-gray-100 font-crimson">
+                        <em>{synonym.name}</em>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
-      )}
-
-      {/* Footer */}
-      <div className="text-center pt-8 border-t-2 border-sage/20">
-        <p className="text-caption text-forest/60">
-          Data sourced from IUCN Red List of Threatened Species
-        </p>
       </div>
     </div>
   );
