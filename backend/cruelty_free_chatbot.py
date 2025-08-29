@@ -60,10 +60,10 @@ Product: {row['Product Name']} ({row['Category']})
 Materials from animals: {row['Animal Materials Used']}
 Animal cruelty flag: {row['Animal Cruelty Flag']}
 Cruelty Note: {row['Cruelty Note']}
-Price: ${row['Estimated Price']}
+Price: {row['Estimated Price']}
 Vegan Alternative: {row['Vegan Alternative']}
 Vegan Material: {row['Material']}
-Vegan Price: ${row['Price']}
+Vegan Price: {row['Price']}
 Why choose vegan: {row['Why Choose Vegan']}
 """
         chunks.append({"text": text, "metadata": row.to_dict()})
@@ -155,22 +155,25 @@ def answer_with_rag(query: str, embed_model: SentenceTransformer,
 
         prompt = f"""
 You are a cruelty-free shopping assistant.
-You have information about products that use animal materials and their vegan alternatives.
-Use the following product information to answer the user's question clearly and helpfully.
 
-For each relevant product:
-- Which animals are harmed and why
-- Product price
-- Vegan alternatives with materials and prices
-- Why someone should choose the vegan alternative
+You have detailed product data, including animal material usage, cruelty notes, prices, and vegan alternatives.
+
+Your job is to answer based on the user’s intent — not with a fixed format.
+Adapt your answer intelligently:
+- If they ask about a brand/product (e.g. Gucci bag), explain relevant details (price, materials, cruelty note) and mention vegan alternatives if appropriate.
+- If they ask for comparisons, provide side-by-side reasoning.
+- If they ask for recommendations, suggest products that fit their needs (category, price, etc).
+- If they ask why to choose vegan, highlight sustainability, ethics, and style — without repeating the same lines every time.
+- Never describe animals dying graphically; keep it professional.
 
 Product Data:
 {context}
 
 User query: {query}
 
-Answer:
+Answer conversationally, in a way that feels natural and tailored to the query:
 """
+
 
         response = gemini.generate_content(prompt)
         return response.text
