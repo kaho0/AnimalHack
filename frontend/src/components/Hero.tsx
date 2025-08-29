@@ -1,8 +1,12 @@
-import { ArrowRight, Info, TreePine } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { HERO_CONTENT } from "@/constants/content";
 
 export default function Hero() {
   return (
-    <section className="relative h-[70vh] bg-[#1a1a1a] text-white overflow-hidden">
+    <section
+      id="home"
+      className="relative h-[70vh] bg-[#1a1a1a] text-white overflow-hidden scroll-mt-24"
+    >
       {/* Hero Image Background */}
       <div className="absolute inset-0">
         <img
@@ -18,30 +22,20 @@ export default function Hero() {
         <div className="max-w-7xl mx-auto px-8 grid grid-cols-12 gap-8 w-full">
           {/* Left Content */}
           <div className="col-span-12 lg:col-span-6 flex flex-col justify-center">
-            <h1 className="text-6xl lg:text-8xl text-[#F5F5DC] font-light mb-6 leading-[0.9]">
-              Siberian
-              <br />
-              <span className="font-normal">Tiger</span>
+            <h1 className="font-serif text-6xl text-[#F5F5DC] font-light mb-6 leading-[0.9] whitespace-pre-line">
+              {HERO_CONTENT.title}
             </h1>
 
             <div className="mb-8">
-              <span className="text-xs uppercase tracking-wider text-gray-300 block mb-1">
-                Status
-              </span>
-              <span className="text-[#ff6b6b] text-lg font-medium">
-                Endangered
-              </span>
+              <p className="font-lato font-thin text-2xl leading-relaxed tracking-wide max-w-md">
+                {HERO_CONTENT.subtitle}
+              </p>
             </div>
-
-            <p className="text-[#F5F5DC] text-lg leading-relaxed mb-8 max-w-md">
-              Discover the stories behind our planet's most magnificent species
-              and learn how your actions can help preserve them for future
-              generations.
-            </p>
-
             <div className="flex items-center space-x-6">
               <button className="group bg-[#61471a] hover:bg-[#c4704a] text-black font-semibold px-8 py-4 transition-all duration-300 flex items-center">
-                <span className="mr-3 text-[#F5F5DC]">Explore Species</span>
+                <span className="mr-3 text-[#F5F5DC] font-lato">
+                  {HERO_CONTENT.ctaPrimary}
+                </span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 text-[#F5F5DC]" />
               </button>
             </div>

@@ -158,22 +158,37 @@ export default function UseAndTrade() {
   }
 
   return (
-    <div className="bg-[#033222]">
+    <div className="bg-[#033222] -mt-20 md:-mt-28">
+      {/* Wildlife Image Section */}
+      <div
+        className="relative overflow-hidden w-full h-[30vh] md:h-[30vh]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(3,50,34,0.6), rgba(3,50,34,0.6)), url('/u1.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="absolute inset-0 flex items-center justify-center">
+          <h1
+            className="text-5xl md:text-6xl font-bold text-amber-200"
+            style={{
+              color: "#D4AF37",
+              fontFamily: "Georgia, serif",
+              letterSpacing: "0.02em",
+              textShadow: "0 2px 8px rgba(0,0,0,0.4)",
+            }}
+          >
+            Use and Trade
+          </h1>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <div className="text-white py-7 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h1
-              className="text-5xl md:text-6xl font-bold text-amber-200 mb-6"
-              style={{
-                color: "#D4AF37",
-                fontFamily: "Georgia, serif",
-                letterSpacing: "0.02em",
-              }}
-            >
-              Use and Trade
-            </h1>
-          </div>
+          <div className="text-center mb-3"></div>
 
           {/* Category Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
@@ -182,14 +197,14 @@ export default function UseAndTrade() {
               <div className="w-20 h-20 bg-amber-400 rounded-full flex items-center justify-center mx-auto mb-8">
                 <Utensils className="w-10 h-10 text-emerald-900" />
               </div>
-              <ul className="space-y-3 text-white/90">
+              <ul className="space-y-3 text-white/90 text-xl">
                 {primaryItems.map((item, index) => (
                   <li
                     key={item.code || index}
                     className="flex items-start text-base"
                   >
                     <span className="w-2 h-2 bg-amber-400 rounded-full mt-2.5 mr-3 flex-shrink-0"></span>
-                    <span className="leading-relaxed">
+                    <span className="font-lato font-thin text-xl leading-relaxed tracking-wide">
                       {item.description.en}
                     </span>
                   </li>
@@ -202,14 +217,14 @@ export default function UseAndTrade() {
               <div className="w-20 h-20 bg-amber-400 rounded-full flex items-center justify-center mx-auto mb-8">
                 <Stethoscope className="w-10 h-10 text-emerald-900" />
               </div>
-              <ul className="space-y-3 text-white/90">
+              <ul className="space-y-3 text-white/90 text-xl">
                 {secondaryItems.map((item, index) => (
                   <li
                     key={item.code || index}
                     className="flex items-start text-base"
                   >
                     <span className="w-2 h-2 bg-amber-400 rounded-full mt-2.5 mr-3 flex-shrink-0"></span>
-                    <span className="leading-relaxed">
+                    <span className="font-lato font-thin text-xl leading-relaxed tracking-wide">
                       {item.description.en}
                     </span>
                   </li>
@@ -222,14 +237,14 @@ export default function UseAndTrade() {
               <div className="w-20 h-20 bg-amber-400 rounded-full flex items-center justify-center mx-auto mb-8">
                 <Users className="w-10 h-10 text-emerald-900" />
               </div>
-              <ul className="space-y-3 text-white/90">
+              <ul className="space-y-3 text-white/90 text-xl">
                 {tertiaryItems.map((item, index) => (
                   <li
                     key={item.code || index}
                     className="flex items-start text-base"
                   >
                     <span className="w-2 h-2 bg-amber-400 rounded-full mt-2.5 mr-3 flex-shrink-0"></span>
-                    <span className="leading-relaxed">
+                    <span className="font-lato font-thin text-xl leading-relaxed tracking-wide">
                       {item.description.en}
                     </span>
                   </li>
@@ -239,18 +254,6 @@ export default function UseAndTrade() {
           </div>
         </div>
       </div>
-
-      {/* Wildlife Image Section */}
-      <div
-        className="relative overflow-hidden w-full h-[30vh] md:h-[30vh]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(3,50,34,0.6), rgba(3,50,34,0.6)), url('/u1.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      ></div>
     </div>
   );
 }

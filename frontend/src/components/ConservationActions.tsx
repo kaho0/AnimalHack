@@ -1,163 +1,83 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { iucnClient } from "@/lib/iucnClient";
-import {
-  ConservationAction,
-  OrganizedCategories,
-} from "./ConservationActions/types";
-
-import { LoadingState } from "./ConservationActions/LoadingState";
-import { ErrorState } from "./ConservationActions/ErrorState";
-import { HeaderSection } from "./ConservationActions/HeaderSection";
-import { StatsSection } from "./ConservationActions/StatsSection";
-import { CategoryGrid } from "./ConservationActions/CategoryGrid";
+import { TreePine, Fish, GraduationCap } from "lucide-react";
+import Image from "next/image";
 import { CONSERVATION_ACTIONS_CONTENT } from "@/constants/content";
 
 export default function ConservationActions() {
-  const [actions, setActions] = useState<ConservationAction[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set()
-  );
-  const [showAllCategories, setShowAllCategories] = useState(false);
-
-  useEffect(() => {
-    loadConservationActions();
-  }, []);
-
-  const loadConservationActions = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await iucnClient.getConservationActions();
-      // Handle the IUCN API response structure
-      if (data && typeof data === "object" && "conservation_actions" in data) {
-        setActions(data.conservation_actions);
-      } else if (Array.isArray(data)) {
-        setActions(data as ConservationAction[]);
-      } else {
-        setActions([]);
-      }
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to load conservation actions"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const toggleCategory = (categoryName: string) => {
-    const newExpanded = new Set(expandedCategories);
-    if (newExpanded.has(categoryName)) {
-      newExpanded.delete(categoryName);
-    } else {
-      newExpanded.add(categoryName);
-    }
-    setExpandedCategories(newExpanded);
-  };
-
-  // Organize actions into main categories with sub-categories
-  const organizeActions = (): OrganizedCategories => {
-    // First, let's see what codes we actually have
-    const allCodes = actions.map((a) => a.code).filter(Boolean);
-    console.log("Available action codes:", allCodes);
-
-    const categories: OrganizedCategories = {
-      "Land/Water Protection": {
-        icon: "Globe",
-        color: "from-[#0F3D2E] to-[#A8C686]",
-        actions: actions.filter((a) => {
-          const code = a.code;
-          return code === "1" || code?.startsWith("1_");
-        }),
-      },
-      "Land/Water Management": {
-        icon: "TreePine",
-        color: "from-[#A8C686] to-[#C4704A]",
-        actions: actions.filter((a) => {
-          const code = a.code;
-          return code === "2" || code?.startsWith("2_");
-        }),
-      },
-      "Education & Awareness": {
-        icon: "GraduationCap",
-        color: "from-[#D4A574] to-[#B8860B]",
-        actions: actions.filter((a) => {
-          const code = a.code;
-          return code === "4" || code?.startsWith("4_");
-        }),
-      },
-      "Species Management": {
-        icon: "Fish",
-        color: "from-[#C4704A] to-[#E6B17A]",
-        actions: actions.filter((a) => {
-          const code = a.code;
-          return code === "3" || code?.startsWith("3_");
-        }),
-      },
-      "Law & Policy": {
-        icon: "Scale",
-        color: "from-[#B8860B] to-[#8B6914]",
-        actions: actions.filter((a) => {
-          const code = a.code;
-          return code === "5" || code?.startsWith("5_");
-        }),
-      },
-      "Livelihood, Economic & Incentives": {
-        icon: "DollarSign",
-        color: "from-[#8B6914] to-[#654321]",
-        actions: actions.filter((a) => {
-          const code = a.code;
-          return code === "6" || code?.startsWith("6_");
-        }),
-      },
-    };
-
-    // Log how many actions are in each category
-    Object.entries(categories).forEach(([name, data]) => {
-      console.log(`${name}: ${data.actions.length} actions`);
-    });
-
-    return categories;
-  };
-
-  if (loading) {
-    return <LoadingState />;
-  }
-
-  if (error) {
-    return <ErrorState error={error} onRetry={loadConservationActions} />;
-  }
-
-  const organizedCategories: OrganizedCategories = organizeActions();
-  const totalActions = actions.length;
+  const funActivities = [
+    {
+      title: "Protect Animal Homes",
+      icon: TreePine,
+      description:
+        "Plant trees, keep parks clean, and build bird houses to help animals.",
+      cta: "EXPLORE",
+    },
+    {
+      title: "Learn About Animals",
+      icon: GraduationCap,
+      description:
+        "Read, watch, and explore to learn more about wildlife and nature.",
+      cta: "READ",
+    },
+    {
+      title: "Help Endangered Animals",
+      icon: Fish,
+      description:
+        "Support wildlife by adopting animals and choosing cruelty-free products.",
+      cta: "DISCOVER",
+    },
+  ];
 
   return (
-    <div className="text-center mb-20 mt-8">
-      <HeaderSection />
-      <StatsSection
-        totalActions={totalActions}
-        organizedCategories={organizedCategories}
-      />
-      <CategoryGrid
-        organizedCategories={organizedCategories}
-        expandedCategories={expandedCategories}
-        showAllCategories={showAllCategories}
-        onToggleCategory={toggleCategory}
-        onToggleShowAll={() => setShowAllCategories(!showAllCategories)}
-      />
-
-      {/* Info Text */}
-      <div className="mt-16 text-center">
-        <p className="font-serif text-sm text-[#6E7B74]/60 font-light">
-          {CONSERVATION_ACTIONS_CONTENT.info.expandHint}
-        </p>
+    <section className="relative -mt-12 sm:-mt-16 lg:-mt-24">
+      {/* Top background image */}
+      <div className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px]">
+        <Image
+          src="/t1.jpg"
+          alt="Nature background"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-white/25" />
       </div>
-    </div>
+
+      {/* Bottom soft strip */}
+      <div className="h-[180px] bg-[#EAEFEA]" />
+
+      {/* Overlay panel */}
+      <div className="absolute left-1/2 top-[52%] -translate-x-1/2 -translate-y-1/2 w-full px-4 sm:px-6 lg:px-8 z-10">
+        <div className="max-w-5xl mx-auto bg-white/95 backdrop-blur-[1px] border border-gray-200 rounded-2xl shadow-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
+            {funActivities.map((card, idx) => {
+              const Icon = card.icon;
+              return (
+                <div key={idx} className="p-8 text-center">
+                  <h3 className="font-serif text-2xl text-[#27352F] mb-2">
+                    {card.title}
+                  </h3>
+                  <p className="text-sm leading-7 text-[#6E7B74] max-w-xs mx-auto mb-6">
+                    {card.description}
+                  </p>
+                  <div className="flex items-center justify-center gap-3">
+                    <Icon className="w-5 h-5 text-[#166D3B]" />
+                    <button className="text-xs tracking-[0.2em] font-semibold text-[#4A7C59] hover:text-[#166D3B]">
+                      {card.cta}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Accessible heading for SEO */}
+      <div className="sr-only">
+        <h2>{CONSERVATION_ACTIONS_CONTENT.header.title}</h2>
+        <p>{CONSERVATION_ACTIONS_CONTENT.header.subtitle}</p>
+      </div>
+    </section>
   );
 }

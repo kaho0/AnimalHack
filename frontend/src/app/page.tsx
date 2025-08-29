@@ -1,6 +1,5 @@
 "use client";
 
-import ConservationActions from "@/components/ConservationActions";
 import UseAndTrade from "@/components/UseAndTrade";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
@@ -21,15 +20,8 @@ export default function HomePage() {
       {/* Search Section */}
       <SearchSection />
 
-      {/* Conservation Actions Section */}
-      <section id="conservation" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ConservationActions />
-        </div>
-      </section>
-
       {/* Use and Trade Section */}
-      <section id="trade" className="p-0 bg-[#033222]">
+      <section id="trade" className="p-0 bg-[#033222] scroll-mt-24">
         <UseAndTrade />
       </section>
 

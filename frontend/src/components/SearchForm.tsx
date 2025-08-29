@@ -43,7 +43,7 @@ export default function SearchForm() {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
         {/* Hero Header */}
         <div className="text-center mb-20">
           <div className="mb-6 animate-fade-in">
@@ -62,7 +62,7 @@ export default function SearchForm() {
             style={{ animationDelay: "0.2s" }}
           >
             <p
-              className="text-2xl leading-relaxed font-light tracking-wide mb-8"
+              className="font-lato font-thin text-2xl leading-relaxed tracking-wide mb-8"
               style={{ color: "#6E7B74" }}
             >
               Access comprehensive conservation data from the IUCN Red List, the
