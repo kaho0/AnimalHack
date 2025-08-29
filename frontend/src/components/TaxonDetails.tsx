@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getFirstSpeciesImage } from "@/lib/speciesImage";
 
 type SSCGroup = {
   name: string;
@@ -59,6 +60,36 @@ function Badge({
 }
 
 export function TaxonDetails({ taxon }: { taxon: Taxon }) {
+  const [speciesImage, setSpeciesImage] = useState<string | null>(null);
+  const [imageLoading, setImageLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
+
+  const fetchSpeciesImage = async () => {
+    setImageLoading(true);
+    setImageError(false);
+    try {
+      const commonNames = taxon.common_names?.map((n) => n.name) || [];
+      const imageUrl = await getFirstSpeciesImage(
+        taxon.scientific_name,
+        commonNames
+      );
+      setSpeciesImage(imageUrl);
+    } catch (error) {
+      console.error("Failed to fetch species image:", error);
+      setImageError(true);
+    } finally {
+      setImageLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSpeciesImage();
+  }, [taxon.scientific_name, taxon.common_names]);
+
+  const handleRetry = () => {
+    fetchSpeciesImage();
+  };
+
   const taxonomy = [
     ["Kingdom", taxon.kingdom_name],
     ["Phylum", taxon.phylum_name],
@@ -99,12 +130,57 @@ export function TaxonDetails({ taxon }: { taxon: Taxon }) {
               </div>
             )}
           </div>
-          {taxon.subpopulation_name && (
-            <Badge variant="highlight">
-              <span className="mr-2">📍</span>
-              {taxon.subpopulation_name}
-            </Badge>
-          )}
+
+          {/* Species Image */}
+          <div className="flex flex-col items-center gap-4">
+            {imageLoading ? (
+              <div className="w-48 h-48 bg-sage/20 rounded-xl flex items-center justify-center">
+                <div className="flex flex-col items-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage mb-2"></div>
+                  <div className="text-sage/60 text-sm">Loading image...</div>
+                </div>
+              </div>
+            ) : speciesImage ? (
+              <div className="relative animate-image-load">
+                <img
+                  src={speciesImage}
+                  alt={`${taxon.scientific_name}`}
+                  className="w-48 h-48 object-cover rounded-xl border-2 border-sage/30 shadow-lg"
+                  onError={() => setSpeciesImage(null)}
+                />
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-sage/90 text-white text-xs px-3 py-1 rounded-full">
+                  Wikimedia Commons
+                </div>
+              </div>
+            ) : imageError ? (
+              <div className="w-48 h-48 bg-red-50 rounded-xl flex flex-col items-center justify-center border-2 border-red-200">
+                <div className="text-red-400 text-center mb-3">
+                  <div className="text-2xl mb-2">⚠️</div>
+                  <div className="text-xs">Failed to load image</div>
+                </div>
+                <button
+                  onClick={handleRetry}
+                  className="px-3 py-1 bg-red-100 hover:bg-red-200 text-red-700 text-xs rounded-lg transition-colors"
+                >
+                  Retry
+                </button>
+              </div>
+            ) : (
+              <div className="w-48 h-48 bg-sage/20 rounded-xl flex items-center justify-center border-2 border-dashed border-sage/30">
+                <div className="text-sage/60 text-center">
+                  <div className="text-2xl mb-2">🦌</div>
+                  <div className="text-xs">No image available</div>
+                </div>
+              </div>
+            )}
+
+            {taxon.subpopulation_name && (
+              <Badge variant="highlight">
+                <span className="mr-2">📍</span>
+                {taxon.subpopulation_name}
+              </Badge>
+            )}
+          </div>
         </div>
       </div>
 
