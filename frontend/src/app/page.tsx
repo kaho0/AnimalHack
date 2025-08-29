@@ -3,13 +3,12 @@
 import ConservationActions from "@/components/ConservationActions";
 import UseAndTrade from "@/components/UseAndTrade";
 import Hero from "@/components/Hero";
-import Transition from "@/components/Transition";
-import Shopping from "@/components/Shopping";
 import Footer from "@/components/Footer";
 import SearchSection from "@/components/SearchSection";
 import ChatbotSection from "@/components/ChatbotSection";
 import ThreatsToWildlife from "@/components/ThreatsToWildlife";
 import FocusAreas from "@/components/FocusAreas";
+import ShoppingImpact from "@/components/ShoppingImpact";
 
 export default function HomePage() {
   return (
@@ -30,17 +29,12 @@ export default function HomePage() {
       </section>
 
       {/* Use and Trade Section */}
-      <section id="trade" className="py-20 bg-[#F8F4E3]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <UseAndTrade />
-        </div>
+      <section id="trade" className="p-0 bg-[#033222]">
+        <UseAndTrade />
       </section>
 
-      {/* Transition to Personal Action */}
-      <Transition />
-
-      {/* Shopping Assistant Introduction */}
-      <Shopping />
+      {/* Combined Impact + Shopping Assistant over image */}
+      <ShoppingImpact />
 
       {/* Cruelty-Free Shopping Chatbot */}
       <ChatbotSection />

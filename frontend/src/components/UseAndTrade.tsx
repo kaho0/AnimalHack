@@ -2,18 +2,83 @@
 
 import { useState, useEffect } from "react";
 import {
-  iucnClient,
-  type UseAndTrade as UseAndTradeType,
-} from "@/lib/iucnClient";
-import {
   ShoppingBag,
   RefreshCw,
   AlertCircle,
-  ChevronDown,
-  ChevronUp,
-  Activity,
-  Globe,
+  Utensils,
+  Shirt,
+  Stethoscope,
+  Home,
+  Users,
+  FlaskConical,
+  Zap,
+  TreePine,
 } from "lucide-react";
+
+// Mock IUCN client for demonstration
+const iucnClient = {
+  getUseAndTrade: async () => {
+    // Simulate API delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    return {
+      use_and_trade: [
+        {
+          code: "1-2",
+          description: { en: "Food - Human & Animal Consumption" },
+        },
+        {
+          code: "4-5",
+          description: { en: "Poisons & Manufacturing Chemicals" },
+        },
+        { code: "7-8-14", description: { en: "Fuels, Fibre & Research" } },
+        {
+          code: "10-11",
+          description: { en: "Apparel, Accessories & Handicrafts" },
+        },
+        { code: "3", description: { en: "Medicine - human & veterinary" } },
+        {
+          code: "6",
+          description: { en: "Construction or structural materials" },
+        },
+        {
+          code: "9",
+          description: { en: "Pets/display animals, horticulture" },
+        },
+        {
+          code: "12",
+          description: { en: "Sport hunting/specimen collecting" },
+        },
+        { code: "13", description: { en: "Establishing ex-situ production" } },
+      ],
+    };
+  },
+};
+
+type UseAndTradeType = {
+  code: string;
+  description: {
+    en: string;
+  };
+};
+
+const getCategoryGroup = (description: string) => {
+  if (
+    description.includes("Food") ||
+    description.includes("Poisons") ||
+    description.includes("Fuels")
+  ) {
+    return "primary";
+  }
+  if (
+    description.includes("Apparel") ||
+    description.includes("Medicine") ||
+    description.includes("Construction")
+  ) {
+    return "secondary";
+  }
+  return "tertiary";
+};
 
 export default function UseAndTrade() {
   const [useAndTradeItems, setUseAndTradeItems] = useState<UseAndTradeType[]>(
@@ -21,7 +86,6 @@ export default function UseAndTrade() {
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     loadUseAndTrade();
@@ -32,14 +96,14 @@ export default function UseAndTrade() {
     setError(null);
     try {
       const data = await iucnClient.getUseAndTrade();
-      // Handle the IUCN API response structure
+      let items: UseAndTradeType[] = [];
       if (data && typeof data === "object" && "use_and_trade" in data) {
-        setUseAndTradeItems(data.use_and_trade);
+        items = data.use_and_trade;
       } else if (Array.isArray(data)) {
-        setUseAndTradeItems(data as UseAndTradeType[]);
-      } else {
-        setUseAndTradeItems([]);
+        items = data as UseAndTradeType[];
       }
+
+      setUseAndTradeItems(items);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to load use and trade data"
@@ -49,24 +113,23 @@ export default function UseAndTrade() {
     }
   };
 
-  const displayedItems = showAll
-    ? useAndTradeItems
-    : useAndTradeItems.slice(0, 6);
-  const hasMoreItems = useAndTradeItems.length > 6;
+  const primaryItems = useAndTradeItems.filter(
+    (item) => getCategoryGroup(item.description.en) === "primary"
+  );
+  const secondaryItems = useAndTradeItems.filter(
+    (item) => getCategoryGroup(item.description.en) === "secondary"
+  );
+  const tertiaryItems = useAndTradeItems.filter(
+    (item) => getCategoryGroup(item.description.en) === "tertiary"
+  );
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-12">
+      <div className="min-h-screen bg-[#033222] flex items-center justify-center">
         <div className="text-center">
-          <div className="relative">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-clay/20 border-t-gold mx-auto mb-6"></div>
-            <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-gold/40 animate-ping"></div>
-          </div>
-          <p className="text-body-large text-forest/60 font-sans-medium">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-yellow-400/20 border-t-yellow-400 mx-auto mb-6"></div>
+          <p className="text-xl text-yellow-200 font-medium">
             Loading use and trade data...
-          </p>
-          <p className="text-body text-forest/40 mt-2">
-            Analyzing human interaction patterns
           </p>
         </div>
       </div>
@@ -75,151 +138,119 @@ export default function UseAndTrade() {
 
   if (error) {
     return (
-      <div className="max-w-2xl mx-auto p-8 bg-gradient-to-br from-wine/5 to-wine/10 border-2 border-wine/20 rounded-3xl">
-        <div className="flex items-center mb-6">
-          <div className="w-12 h-12 bg-wine/20 rounded-full flex items-center justify-center mr-4">
-            <AlertCircle className="w-6 h-6 text-wine" />
-          </div>
-          <div>
-            <h3 className="text-subheadline text-wine font-sans-bold">
-              Error Loading Data
-            </h3>
-            <p className="text-caption text-wine/70">
-              Unable to fetch use and trade data
-            </p>
-          </div>
+      <div className="min-h-screen bg-[#033222] flex items-center justify-center p-4">
+        <div className="max-w-2xl mx-auto p-8 bg-red-500/10 border-2 border-red-400/20 rounded-3xl text-center">
+          <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-6" />
+          <h3 className="text-2xl text-red-300 font-bold mb-4">
+            Error Loading Data
+          </h3>
+          <p className="text-red-200 mb-6">{error}</p>
+          <button
+            onClick={loadUseAndTrade}
+            className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-xl font-medium transition-colors duration-200 inline-flex items-center"
+          >
+            <RefreshCw className="w-5 h-5 mr-2" />
+            Try Again
+          </button>
         </div>
-        <p className="text-body text-wine/80 mb-6 leading-relaxed">{error}</p>
-        <button
-          onClick={loadUseAndTrade}
-          className="btn-primary w-full sm:w-auto px-8 py-4"
-        >
-          <RefreshCw className="w-5 h-5 mr-2 inline" />
-          Try Again
-        </button>
       </div>
     );
   }
 
   return (
-    <div className="text-center mb-16">
-      {/* Header Section */}
-      <div className="mb-16">
-        <div className="flex items-center justify-center mb-6">
-          <div className="w-16 h-16 bg-gradient-to-br from-clay/20 to-gold/20 rounded-2xl flex items-center justify-center mr-4">
-            <ShoppingBag className="w-8 h-8 text-clay" />
+    <div className="bg-[#033222]">
+      {/* Hero Section */}
+      <div className="text-white py-7 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h1
+              className="text-5xl md:text-6xl font-bold text-amber-200 mb-6"
+              style={{
+                color: "#D4AF37",
+                fontFamily: "Georgia, serif",
+                letterSpacing: "0.02em",
+              }}
+            >
+              Use and Trade
+            </h1>
           </div>
-          <h2 className="text-headline text-forest">Use and Trade</h2>
-        </div>
-        <p className="text-body-large text-forest/70 max-w-3xl mx-auto leading-relaxed">
-          Explore how human activities and commercial practices impact species
-          worldwide, from traditional uses to modern trade patterns.
-        </p>
-      </div>
 
-      {/* Stats Section */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-        <div className="text-center">
-          <div className="text-4xl font-display-bold text-forest mb-2">
-            {useAndTradeItems.length}
-          </div>
-          <div className="text-caption text-forest/60 uppercase tracking-wider">
-            Categories
-          </div>
-        </div>
-        <div className="text-center">
-          <div className="text-4xl font-display-bold text-clay mb-2">
-            {
-              useAndTradeItems.filter((item) => item.code?.startsWith("1"))
-                .length
-            }
-          </div>
-          <div className="text-caption text-forest/60 uppercase tracking-wider">
-            Food Related
-          </div>
-        </div>
-        <div className="text-center">
-          <div className="text-4xl font-display-bold text-gold mb-2">
-            {
-              useAndTradeItems.filter((item) => item.code?.startsWith("3"))
-                .length
-            }
-          </div>
-          <div className="text-caption text-forest/60 uppercase tracking-wider">
-            Medical Uses
-          </div>
-        </div>
-      </div>
-
-      {/* Items Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        {displayedItems.map((item, index) => (
-          <div
-            key={item.code || index}
-            className="group relative overflow-hidden rounded-2xl border-2 border-clay/20 bg-gradient-to-br from-cream to-sand/30 p-6 hover:border-clay/40 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-          >
-            {/* Decorative background elements */}
-            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-clay/10 to-transparent rounded-full -translate-y-12 translate-x-12 group-hover:scale-110 transition-transform duration-300"></div>
-            <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-gold/10 to-transparent rounded-full translate-y-10 -translate-x-10 group-hover:scale-110 transition-transform duration-300"></div>
-
-            <div className="relative z-10">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  <h3 className="text-lg font-sans-semibold text-forest leading-relaxed mb-3 group-hover:text-clay transition-colors duration-200">
-                    {item.description.en}
-                  </h3>
-                </div>
+          {/* Category Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+            {/* Primary Categories */}
+            <div className="text-left">
+              <div className="w-20 h-20 bg-amber-400 rounded-full flex items-center justify-center mx-auto mb-8">
+                <Utensils className="w-10 h-10 text-emerald-900" />
               </div>
+              <ul className="space-y-3 text-white/90">
+                {primaryItems.map((item, index) => (
+                  <li
+                    key={item.code || index}
+                    className="flex items-start text-base"
+                  >
+                    <span className="w-2 h-2 bg-amber-400 rounded-full mt-2.5 mr-3 flex-shrink-0"></span>
+                    <span className="leading-relaxed">
+                      {item.description.en}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-forest/10 rounded-lg flex items-center justify-center">
-                    <Activity className="w-4 h-4 text-forest" />
-                  </div>
-                  <span className="text-caption text-forest/60 font-sans-medium">
-                    Human Activity Classification
-                  </span>
-                </div>
-                {item.code && (
-                  <div className="text-caption text-forest/40 font-mono bg-sand/50 px-2 py-1 rounded-lg">
-                    Code: {item.code}
-                  </div>
-                )}
+            {/* Secondary Categories */}
+            <div className="text-left">
+              <div className="w-20 h-20 bg-amber-400 rounded-full flex items-center justify-center mx-auto mb-8">
+                <Stethoscope className="w-10 h-10 text-emerald-900" />
               </div>
+              <ul className="space-y-3 text-white/90">
+                {secondaryItems.map((item, index) => (
+                  <li
+                    key={item.code || index}
+                    className="flex items-start text-base"
+                  >
+                    <span className="w-2 h-2 bg-amber-400 rounded-full mt-2.5 mr-3 flex-shrink-0"></span>
+                    <span className="leading-relaxed">
+                      {item.description.en}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Tertiary Categories */}
+            <div className="text-left">
+              <div className="w-20 h-20 bg-amber-400 rounded-full flex items-center justify-center mx-auto mb-8">
+                <Users className="w-10 h-10 text-emerald-900" />
+              </div>
+              <ul className="space-y-3 text-white/90">
+                {tertiaryItems.map((item, index) => (
+                  <li
+                    key={item.code || index}
+                    className="flex items-start text-base"
+                  >
+                    <span className="w-2 h-2 bg-amber-400 rounded-full mt-2.5 mr-3 flex-shrink-0"></span>
+                    <span className="leading-relaxed">
+                      {item.description.en}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-        ))}
-      </div>
-
-      {/* Show More/Less Toggle */}
-      {hasMoreItems && (
-        <div className="text-center">
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="inline-flex items-center px-6 py-3 bg-sand border-2 border-clay/50 text-forest hover:bg-clay/20 transition-all duration-200 font-sans-medium rounded-xl hover:border-clay/70"
-          >
-            {showAll ? (
-              <>
-                <ChevronUp className="w-5 h-5 mr-2" />
-                Show Less
-              </>
-            ) : (
-              <>
-                <ChevronDown className="w-5 h-5 mr-2" />
-                Show All {useAndTradeItems.length} Categories
-              </>
-            )}
-          </button>
         </div>
-      )}
-
-      {/* Info Text */}
-      <div className="mt-12 text-center">
-        <p className="text-caption text-forest/60">
-          Displaying {displayedItems.length} of {useAndTradeItems.length} use
-          and trade categories
-        </p>
       </div>
+
+      {/* Wildlife Image Section */}
+      <div
+        className="relative overflow-hidden w-full h-[30vh] md:h-[30vh]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(3,50,34,0.6), rgba(3,50,34,0.6)), url('/u1.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      ></div>
     </div>
   );
 }
