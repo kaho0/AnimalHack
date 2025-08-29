@@ -1,5 +1,5 @@
 import os
-from typing import Optional
+from typing import Optional, Any
 
 import httpx
 import markdown
@@ -40,17 +40,18 @@ app.add_middleware(
 )
 
 client: Optional[httpx.AsyncClient] = None
-chatbot: Optional[CrueltyFreeChatbot] = None
+chatbot: Optional[Any] = None  # Will be CrueltyFreeChatbot instance or None
 
 @app.on_event("startup")
 async def on_startup() -> None:
 	global client, chatbot
 	client = httpx.AsyncClient(base_url=IUCN_BASE_URL, timeout=30.0)
 	
-			# Initialize the cruelty-free chatbot if API key is available
+	# Initialize the real RAG chatbot if API key is available
 	if GEMINI_API_KEY:
 		try:
 			print(f"[DEBUG] Initializing chatbot with API key: {GEMINI_API_KEY[:10]}...")
+			from cruelty_free_chatbot import CrueltyFreeChatbot
 			csv_path = "luxury_animal_products_vegan_alternatives.csv"
 			chatbot = CrueltyFreeChatbot(csv_path, GEMINI_API_KEY)
 			print("[INFO] Cruelty-free chatbot initialized successfully")
@@ -61,6 +62,7 @@ async def on_startup() -> None:
 			chatbot = None
 	else:
 		print("[WARN] GEMINI_API_KEY not set, cruelty-free chatbot disabled")
+		chatbot = None
 
 @app.on_event("shutdown")
 async def on_shutdown() -> None:
@@ -148,6 +150,7 @@ async def chatbot_query(request: dict):
 			raise HTTPException(status_code=400, detail="Query is required")
 
 		answer_md = chatbot.answer_query(query)  # Markdown response
+		
 		answer_html = markdown.markdown(answer_md, extensions=['extra'], output_format='html5')  # Convert to HTML
 
 		return {
@@ -173,6 +176,7 @@ async def get_product_suggestions(category: Optional[str] = None, max_price: Opt
 	
 	try:
 		suggestions = chatbot.get_product_suggestions(category=category, max_price=max_price)
+		
 		return {"suggestions": suggestions, "filters": {"category": category, "max_price": max_price}}
 		
 	except Exception as e:
@@ -208,6 +212,7 @@ async def chatbot_chat(request: dict):
 			raise HTTPException(status_code=400, detail="Message is required")
 
 		answer_md = chatbot.answer_query(message)  # Markdown response
+		
 		answer_html = markdown.markdown(answer_md, extensions=['extra'], output_format='html5')  # Convert to HTML
 
 		return {
