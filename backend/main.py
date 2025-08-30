@@ -63,6 +63,9 @@ async def on_startup() -> None:
 	else:
 		print("[WARN] GEMINI_API_KEY not set, cruelty-free chatbot disabled")
 		chatbot = None
+@app.get("/")
+def read_root():
+    return {"message": "Hello World"}
 
 @app.on_event("shutdown")
 async def on_shutdown() -> None:
